@@ -1,6 +1,6 @@
 @font-face {
     font-family: "ORCAExt";
-    src : url("./font/ocraextended.ttf") format("truetype");
+    src : url("../src/core/font/ocraextended.ttf") format("truetype");
 }
 * {
 	margin : 0;
