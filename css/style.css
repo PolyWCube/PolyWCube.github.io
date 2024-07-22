@@ -1,6 +1,6 @@
 @font-face {
     font-family: "ORCAExt";
-    src : url("src/core/font/ocraextended.ttf") format("truetype");
+    src : url("../src/core/font/ocraextended.ttf") format("truetype");
 }
 * {
 	margin : 0;
@@ -49,7 +49,6 @@ body {
 				width : 100%;
 				float : left;
 				height : 70px;
-			}
 				ul {
 					display : flex;
 					justify-content : space-evenly;
@@ -71,4 +70,30 @@ body {
 								color : gray;
 								font-size : 120%;
 							}
-							
+			}
+		.content {
+			width : 100%;
+			color : fff;
+			float : left;
+			.topic {
+				ul {
+					text-align : center;
+				}
+					ul li {
+						list-style : none;
+						font-size : 14px;
+						padding-top : 2%;
+						padding-left : 10%;
+					}
+						ul li a {
+							text-decoration : none;
+							color : white;
+							font-weight : bold;
+							transition : 0.4s ease-in-out;
+						}
+							ul li a:hover {
+								color : gray;
+								font-size : 120%;
+							}
+			}
+		}
