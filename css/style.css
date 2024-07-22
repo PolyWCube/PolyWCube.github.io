@@ -1,10 +1,11 @@
 @font-face {
     font-family: "ORCAExt";
-    src : url("../src/core/font/ocraextended.ttf") format("truetype");
+    src : url("/src/core/font/ocraextended.ttf") format("truetype");
 }
 * {
 	margin : 0;
 	padding : 0;
+	font-weight : bold;
 	font-family : "ORCAExt";
 }
 body {
@@ -21,49 +22,43 @@ body {
 		margin : auto;
 	}
 		.icon {
+			display : flex;
 			width : 100%;
 			height : 8%;
-			padding-top : 2%;
 			background : #101010;
-			text-align : center;
-			
+			align-items : center;
+			justify-content : center;
 			transition : 0.4s ease-in-out;
 			
 			&:hover {
 				background : white;
 				height : 10%;
-				padding-top : 4%;
 				.logo {
 					color : black;
+					font-size : 200%;
 				}
 			}
 		}
 			.logo {
-				font-size : 30px;
 				transition : 0.4s ease-in-out;
-				
 				text-align : center;
 			}
 		.nav_bar
 			.menu {
+				background : #151515;
 				width : 100%;
-				float : left;
-				height : 70px;
 				ul {
 					display : flex;
 					justify-content : space-evenly;
-					text-align : center;
+					height : 10%;
+					align-items : center;
 				}
 					ul li {
 						list-style : none;
-						font-size : 14px;
-						padding-top : 2%;
-						padding-left : 10%;
-					}
+				}
 						ul li a {
 							text-decoration : none;
 							color : white;
-							font-weight : bold;
 							transition : 0.4s ease-in-out;
 						}
 							ul li a:hover {
@@ -76,24 +71,21 @@ body {
 			color : fff;
 			float : left;
 			.topic {
-				ul {
-					text-align : center;
+				text-align : center;
+				ul li {
+					list-style : none;
+					font-size : 14px;
+					padding-top : 2%;
 				}
-					ul li {
-						list-style : none;
-						font-size : 14px;
-						padding-top : 2%;
-						padding-left : 10%;
+					ul li a {
+						text-decoration : none;
+						color : white;
+						font-weight : bold;
+						transition : 0.4s ease-in-out;
 					}
-						ul li a {
-							text-decoration : none;
-							color : white;
-							font-weight : bold;
-							transition : 0.4s ease-in-out;
+						ul li a:hover {
+							color : gray;
+							font-size : 120%;
 						}
-							ul li a:hover {
-								color : gray;
-								font-size : 120%;
-							}
 			}
 		}
