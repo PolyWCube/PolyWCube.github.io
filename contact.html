@@ -1,5 +1,5 @@
- <DOCTYLE html>
- <html>
+<!DOCTYLE html>
+<html>
 	<head>
 		<!-- Meta -->
 		<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
@@ -13,6 +13,7 @@
 	</head>
 	
 	<body>
+		<div class = "cursor_zone"> </div>
 		<div class = "main">
 			<div class = "icon">
 				<h2 class = "logo"> < P O L Y W C U B E > </h2>
@@ -20,16 +21,19 @@
 			<div class = "nav_bar">
 				<div class = "menu">
 					<ul>
-						<li> <a href = "project"> PROJECT </a> </li>
-						<li> <a href = "index"> HOME </a> </li>
-						<li> <a href = "contact"> CONTACT </a> </li>
+						<li> <a href = "project.html" data-link> PROJECT </a> </li>
+						<li> <a href = "index.html" data-link> HOME </a> </li>
+						<li> <a href = "contact.html" data-link> CONTACT </a> </li>
 					<ul>
 				</div>
 			</div>
 			<div class = "content">
 				<p> Gmail : polywcube@gmail.com </p>
-				<a href = "https://www.youtube.com/channel/UCf8r-gSziUj3D7GFkObJ-FQ">  Youtube : PolyWCube  </a>
+				<a href = "https://www.youtube.com/channel/UCf8r-gSziUj3D7GFkObJ-FQ" data-link> Youtube : PolyWCube 
+					<img src = "src/core/img/youtube_logo.png"> </img>
+				</a>
 			</div>
 		</div>
+		<script src = "src/core/script/custom_cursor.js"> </script>
 	</body>
 </html>

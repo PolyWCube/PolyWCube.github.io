@@ -1,16 +1,28 @@
 @font-face {
     font-family: "ORCAExt";
-    src : url("./src/core/font/ocraextended.ttf") format("truetype");
+    src : url("../src/core/font/ocraextended.ttf") format("truetype");
 }
 * {
 	margin : 0;
 	padding : 0;
 	font-weight : bold;
 	font-family : "ORCAExt";
+	font-size : 30px;
+	
+	transition : 0.2s ease-out;
 }
 body {
-	float : none;
-	color : white;
+	.cursor_zone {
+		pointer-events : none;
+		position : fixed;
+		z-index : 1;
+		top : 0;
+		left : 0;
+		width : 30px;
+		height : 30px;
+		border : 2px solid #fff;
+		margin : -15px 0px 0px -15px;
+	}
 	.main {
 		background : #000;
 		background-origin : center;
@@ -24,18 +36,16 @@ body {
 			background : #101010;
 			align-items : center;
 			justify-content : center;
-			transition : 0.4s ease-in-out;
-			
 			.logo {
-				transition : 0.4s ease-in-out;
+				color : #fff;
 				text-align : center;
 			}
 			&:hover {
-				background : white;
+				background : #fff;
 				height : 10%;
 				.logo {
-					color : black;
-					font-size : 200%;
+					color : #000;
+					font-size : 120%;
 				}
 			}
 		}
@@ -50,15 +60,15 @@ body {
 					align-items : center;
 					text-align : center;
 					list-style : none;
-					li { 
-						margin : 5%; 
+					li {
+						width : 20%;
 						a {
 							text-decoration : none;
-							color : white;
-							transition : 0.4s ease-in-out;
+							font-size : 60%;
+							color : #fff;
 							&:hover {
-								color : gray;
-								font-size : 120%;
+								color : #505050;
+								font-size : 80%;
 							}
 						}
 					}
@@ -67,29 +77,69 @@ body {
 		}
 		.content {
 			width : 100%;
-			color : fff;
+			color : #fff;
 			padding-top : 2%;
 			text-align : center;
 			.topic {
-				ul li {
-					list-style : none;
-					font-size : 14px;
-					padding-top : 2%;
+				h3 {
+					font-size : 80%;
 				}
-					ul li a {
-						text-decoration : none;
-						color : white;
-						font-weight : bold;
-						transition : 0.4s ease-in-out;
-					}
-						ul li a:hover {
-							color : gray;
-							font-size : 120%;
+				ul {
+					display : flex;
+					list-style : none;
+					flex-wrap : wrap;
+					justify-content : center;
+					flex-direction : column;
+					padding-top : 2%;
+					li 
+					{
+						a {
+							text-decoration : none;
+							font-size : 60%;
+							color : #fff;
+							
+							#description {
+								position: absolute;
+								background: none;
+								visibility : hidden;
+								text-align : left;
+								padding-left : 10%;
+								opacity : 0;
+								p {
+									font-size : 40%;
+								}
+							}
+							
+							&:hover {
+								color: #505050;
+								font-size: 80%;
+						
+								#description {
+									color : #fff;
+									opacity : 1;
+									visibility : visible;
+								}
+							}
 						}
+					}
+				}
 			}
 			a {
 				text-decoration : none;
 				color : fff;
+				img {
+					width : 20px;
+					height : 20px;
+				}
+			}
+			h1 {
+				align-items : center;
+				padding-top : 1%;
+				font-size : 100%;
+				p {
+					padding-top : 0.5%;
+					font-size : 60%;
+				}
 			}
 		}
 	}
