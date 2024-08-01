@@ -1,0 +1,52 @@
+<!DOCTYLE html>
+<html lang = "en">
+	<head>
+		<!-- Meta -->
+		<meta charset = "UTF-8">
+		<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+		<meta name = "description" content = "Simple TO-DO list - made by POLYWCUBE">
+		
+		<!-- Style -->
+		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
+		
+		<title>PolyWCube - To-do list</title>
+		
+	</head>
+	
+	<body>
+		<div class = "cursor_zone"> </div>
+		<div class = "main">
+			<section class = "icon">
+				<h2 class = "logo"> < P O L Y W C U B E > </h2>
+			</section>
+			<section class = "nav_bar">
+				<div class = "menu">
+					<ul>
+						<li> <a href = "../project.html" data-link> PROJECT </a> </li>
+						<li> <a href = "../index.html" data-link> HOME </a> </li>
+						<li> <a href = "../contact.html" data-link> CONTACT </a> </li>
+					<ul>
+				</div>
+			</section>
+			<section class = "project-to-do_list">
+				<h3 data-link> TO-DO </h3>
+				<div class = "input">
+					<input type = "text" class = "input_field" id = "to-do_input" placeholder = "What's next?">
+					<button class = "add-button" data-link> Add </button>
+				</div>
+				<ul class = "to-do items">
+					<li id = "display-list"> 
+					</li>
+				</ul>
+				<div class = "counter">
+					<p> <span> 0 </span> Item </p>
+				</div>
+				<button class = "delete-button" data-link> Delete </button>
+			</section>
+			<footer class = "author">
+				<p> Made by PWC </p>
+			</footer>
+		</div>
+		<script type = "text/javascript" src = "../src/core/script/custom_cursor.js"> </script>
+	</body>
+</html>

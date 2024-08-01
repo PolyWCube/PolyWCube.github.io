@@ -68,6 +68,7 @@ const request_animation_frame = () => {
 		style = {
 			width : "30px",
 			height : "30px",
+			opacity : "1", 
 			marginLeft : "-15px",
 			marginRight : "-15px",
 			transform : `
@@ -80,6 +81,7 @@ const request_animation_frame = () => {
 		style = {
 			width : `${mouse.width}px`,
 			height : `${mouse.height}px`,
+			opacity : `${0.5 - speed * 0.2}`, 
 			marginLeft : 0,
 			marginRight : 0,
 			transform :`
