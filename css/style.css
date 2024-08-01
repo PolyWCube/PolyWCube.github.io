@@ -1,12 +1,12 @@
 @font-face {
     font-family: "ORCAExt";
-    src : url("../src/core/font/ocraextended.ttf") format("truetype");
+    src : url("../src/core/font/ocr-a-extended.ttf") format("truetype");
 }
 * {
 	margin : 0;
 	padding : 0;
 	font-weight : bold;
-	font-family : "ORCAExt";
+	font-family : "ORCAExt", , sans-serif;
 	font-size : 30px;
 	
 	transition : 0.2s ease-out;
