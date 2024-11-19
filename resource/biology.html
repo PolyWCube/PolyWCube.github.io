@@ -10,6 +10,21 @@
 		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
 		
 		<title>PolyWCube</title>
+		<script>
+		function displayRandomQuote() {
+			fetch('quote.txt')
+			.then(response => response.text())
+			.then(data => {
+				var quotes = data.split('\n');
+				var randomIndex = Math.floor(Math.random() * quotes.length);
+				var randomQuote = quotes[randomIndex];
+				document.getElementById("quote").innerText = randomQuote;
+				console.log(data);
+			})
+			.catch(error => console.error('Error reading the file: ', error));
+		}
+		window.onload = displayRandomQuote;
+		</script>
 		
 	</head>
 	
@@ -32,33 +47,45 @@
 				</div>
 			</section>
 			<section class = "content">
+				<h1> Biology </h1>
+				<p> The study of life and everything related to it </p>
+				<p> This is a branch of natural science study about lifeform (living organism), characteristic of life and it's behaviour, to revealing the  </p>
 				<h1> Topic </h1>
-				<ul>
-					<li> 
-						<a href = "biology/organisation-level.html"> ORGANISATION LEVEL </a>
-						<p> Life create from multiple level of biological structure. </p>
-						<p> The level of biological organization represent the layer of life, follow the concept of higher, more complex structure made up of smaller, simpler structure. </p>
-					</li>
-					<li> 
-						<a href = "biology/genetic-mechanism.html"> GENETIC MECHANISM </a>
-						<p> At molecule level, gene have a lot of process to function itself, which include expression, regulation,... </p>
-					</li>
-					<li> 
-						<a href = "biology/calculation.html"> CALCULATION </a>
-						<p> The meaning and role behide numbers and calculations depend on the structure and function of a micromolecule. </p>
-					</li>
-					<li> 
-						<a href = "biology/heredity.html"> HEREDITY </a>
-						<p> The concept of passing trait from parents to their offsprings. </p>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<a href = "biology/organism-classification.html"> ORGANISM CLASSIFICATION </a>
-						<p> The sciencific name classification of organism base on their characteristic. </p>
-					</li>
-				</ul>
+					<ul>
+						<li>
+							<a href = "biology/organisation-level.html"> ORGANISATION LEVEL </a>
+							<p> Life create from multiple level of biological structure. </p>
+							<p> The level of biological organization represent the layer of life, follow the concept of higher, more complex structure made up of smaller, simpler structure. </p>
+						</li>
+						<li> <a href = "biology/vital-process.html"> VITAL PROCESS </a>
+							<p> For life to even exist in the first place, vital process have a essential in the manipulation of both energy and matter. </p>
+						</li>
+						<li> 
+							<a href = "biology/genetic-mechanism.html"> GENETIC MECHANISM </a>
+							<p> At molecule level, gene have a lot of process to function itself, which include expression, regulation,... </p>
+						</li>
+						<li> 
+							<a href = "biology/calculation.html"> CALCULATION </a>
+							<p> The meaning and role behide numbers and calculations depend on the structure and function of a micromolecule. </p>
+						</li>
+						<li> 
+							<a href = "biology/heredity.html"> HEREDITY </a>
+							<p> The concept of passing trait from parents to their offsprings. </p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href = "biology/organism-classification.html"> ORGANISM CLASSIFICATION </a>
+							<p> The sciencific name classification of organism base on their characteristic. </p>
+						</li>
+					</ul>
+				
+				<button onclick="displayRandomQuote()">Get Random Quote</button>
+			</section>
+			<section class = "footer">
+				<p id = "quote"> quote </p>
 			</section>
 		</div>
 	</body>
+	
 </html>
