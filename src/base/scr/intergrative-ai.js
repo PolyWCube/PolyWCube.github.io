@@ -26,3 +26,20 @@ document.getElementById("toggle-button").addEventListener("click", function() {
 window.addEventListener("unload", function() {
 	recognition.stop();
 });
+
+function sendMessage() {
+    const inputMessage = document.getElementById("transcription").value;
+
+    fetch(`https://rhetorical-intermediate-humor.glitch.me/api?generator=iu4qaxtgan&list=output&inputmessage=${inputMessage}`)
+        .then(response => response.json())
+        .then(data => {
+            const generatedResponse = data.output;
+            document.getElementById("response").value = generatedResponse;
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+}
+
+// Event listener for the "Generate Response" button
+document.getElementById("generate-button").addEventListener("click", sendMessage);
