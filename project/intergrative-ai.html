@@ -1,10 +1,10 @@
-<!DOCTYLE html>
+<!DOCTYPE html>
 <html lang = "en">
 	<head>
 		<!-- Meta -->
 		<meta charset = "UTF-8">
 		<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-		<meta name = "description" content = "Intergrative AI - Speech Recognisation / Generation (SR/G), Repond Generator, Internet Of Everything (IOE)">
+		<meta name = "description" content = "Intergrative AI - Speech Recognition / Generation (SR/G), Reponse Generator, Internet Of Everything (IOE)">
 		
 		<!-- Style -->
 		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
@@ -13,6 +13,14 @@
 		<!--
 		<script src = "../src/base/scr/quote-generator.js"> </script>
 		-->
+		<script type = "importmap">
+		{
+			"imports" :
+			{
+				"@google/generative-ai" : "https://esm.run/@google/generative-ai"
+			}
+		}
+		</script>
 		<title>PolyWCube</title>
 		
 	</head>
@@ -41,28 +49,34 @@
 				<br>
 					<textarea id = "transcription"> </textarea>
 				<br>
-					<input type = "checkbox" id = "auto-correct"> Auto Correct </input>
-					<input type = "checkbox" id = "auto-respond"> Auto Respond </input>
+					<input type = "checkbox" id = "auto-response"> Auto Respond </input>
 				<br>
-					<select id="language-select">
-						<option value="en-US">English (US)</option>
-					</select>
 					<button id = "toggle-button"> Start Recording </button>
+					<button id = "clear-button"> Clear </button>
 				<br>
 					<select id="voice-select">
+						<option value = "Microsoft David - English (United States)">David - US</option>
+						<option value = "Microsoft Mark - English (United States)">Mark - US</option>
+						<option value = "Microsoft Zira - English (United States)">Zira - US</option>
+						<option value = "Google US English">Michael - US</option>
+						<option value = "Google UK English Female">Jennifer - UK</option>
+						<option value = "Google UK English Male">Kyle - UK</option>
 					</select>
-					<button id = "speak-button"> Speak Text </button>
+					<button id = "speak-button"> Speak </button>
 					<button id = "generate-button"> Generate Response </button>
 				<br>
-					<textarea id = "response"> </textarea>
+					<input type="range" min = "0" max = "1" value = "1" step = "0.1" id = "volume-slider"> Volume </input>
 				<br>
-					<script src = "../src/base/scr/intergrative-ai.js"> </script>
-					<script src = "../src/base/scr/speech-synthesis.js"> </script>
+					<input type="range" min = "0.5" max = "2" value = "1" step = "0.1" id = "speed-slider"> Speed </input>
+				<br>
+					<input type = "checkbox" id = "auto-speak"> Auto Speak </input>
+					<input type = "checkbox" id = "auto-restart"> Auto Restart Conversation </input>
+				<br>
+					<textarea id = "response"> </textarea>
 				<br>
 				<br>
 				<br>
 					<textarea id = "converstation-history"> </textarea>
-					<script src = "../src/base/scr/perchance-api.js"> </script>
 			<br>
 			<br>
 			<br>
@@ -73,5 +87,8 @@
 			</section>
 			-->
 		</div>
+		<script type = "module" src = "../src/base/scr/speech-synthesis.js"> </script>
+		<script type = "module" src = "../src/base/scr/intergrative-ai.js"> </script>
+		<script type = "module" src = "../src/base/scr/speech-recognition.js"> </script>
 	</body>
 </html>
