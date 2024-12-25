@@ -8,6 +8,7 @@ speech.lang = "en-US";
 let voices = [];
 
 let autorestart = document.getElementById("auto-restart");
+let language = document.getElementById("language");
 
 let speak = false;
 
@@ -42,7 +43,7 @@ speechSynthesis.onvoiceschanged = function() {
 	voices = speechSynthesis.getVoices();
 	var voiceSelect = document.getElementById("voice-select");
 
-	voiceSelect.innerHTML = '';
+	voiceSelect.options.length = 0;
 
 	voices.forEach(voice => {
 		var option = document.createElement("option");

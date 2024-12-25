@@ -46,37 +46,77 @@
 			-->
 			<section class = "content">
 				<h1> Intergrative AI </h1>
+					<h2> User Prompt </h2>
+					<br>
+						<textarea id = "transcription"> </textarea>
 				<br>
-					<textarea id = "transcription"> </textarea>
+					<h2> Controller </h2>
+						<button id = "record-button" style = "font-size: 60%;"> Start Recording </button>
+						<button id = "clear-button" style = "font-size: 60%;"> Clear User Prompt</button>
+					<br>
+						<button id = "speak-button" style = "font-size: 60%;"> Speak </button>
+						<button id = "generate-button" style = "font-size: 60%;"> Generate Response </button>
 				<br>
-					<input type = "checkbox" id = "auto-response"> Auto Respond </input>
+					<h2> Chatbot Promt </h2>
+					<br>
+					<textarea id = "response" style = "height: 200px; font-size: 16px;"> </textarea>
 				<br>
-					<button id = "toggle-button"> Start Recording </button>
-					<button id = "clear-button"> Clear </button>
-				<br>
-					<select id="voice-select">
-						<option value = "Microsoft David - English (United States)">David - US</option>
-						<option value = "Microsoft Mark - English (United States)">Mark - US</option>
-						<option value = "Microsoft Zira - English (United States)">Zira - US</option>
-						<option value = "Google US English">Michael - US</option>
-						<option value = "Google UK English Female">Jennifer - UK</option>
-						<option value = "Google UK English Male">Kyle - UK</option>
-					</select>
-					<button id = "speak-button"> Speak </button>
-					<button id = "generate-button"> Generate Response </button>
-				<br>
-					<input type="range" min = "0" max = "1" value = "1" step = "0.1" id = "volume-slider"> Volume </input>
-				<br>
-					<input type="range" min = "0.5" max = "2" value = "1" step = "0.1" id = "speed-slider"> Speed </input>
-				<br>
-					<input type = "checkbox" id = "auto-speak"> Auto Speak </input>
-					<input type = "checkbox" id = "auto-restart"> Auto Restart Conversation </input>
-				<br>
-					<textarea id = "response" style = "height: 500px; font-size: 16px;"> </textarea>
-				<br>
-				<br>
-				<br>
-					<textarea id = "converstation-history" style = "display: none;"> </textarea>
+					<textarea id = "converstation-history"> </textarea>
+					<h2> User Configuration </h2>
+						<h3> Speech Recognition (SR/STT) </h3>
+						<input type = "checkbox" class = "toggle" id = "sr-api" hidden checked></input>
+						<label title = "Switch the API using for speech synthesis between Web STT API and OpenAI Whisper API" for = "sr-api"> Toggle Web API </label>
+						<h3 style = "text-align: center;"> Language
+							<select id="sr-language-select">
+								<option value = "en-US"> English - US </option>
+								<option value = "en-UK"> English - UK </option>
+								<option value = "vi"> Vietnamese </option>
+							</select>
+						</h3>
+						<h3> Speech Synthesis (SS/TTS) </h3>
+						<input type = "checkbox" class = "toggle" id = "ss-api" hidden checked></input>
+						<label title = "Switch the API using for speech synthesis between Web TTS API and OpenAI TTS API" for = "ss-api"> Toggle Web API </label>
+						<h3 style = "text-align: center;"> Language
+							<select id="ss-language-select">
+								<option value = "en-US"> English - US </option>
+								<option value = "en-UK"> English - UK </option>
+								<option value = "vi"> Vietnamese </option>
+							</select>
+						</h3>
+						<h3 style = "text-align: center;"> Voice
+							<select id="voice-select">
+								<option value = ""> BEST </option>
+								<option value = ""> Standard </option>
+								<option value = ""> General </option>
+							</select>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"> Volume&nbsp;
+							<input type="range" min = "0" max = "1" value = "1" step = "0.01" id = "volume-slider" style = "width: 50%;"> </input>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"> Speed &nbsp;
+							<input type="range" min = "0.5" max = "2" value = "0.8" step = "0.02" id = "speed-slider" style = "width: 50%;"> </input>
+						</h3>
+						<h3> Natural Language Processing (NLP/Gemini) </h3>
+						<h3 style = "text-align: center;"> Model
+							<select id="model-select">
+								<option value = "gemini-1.5-pro"> Gemini 1.5 Pro </option>
+								<option value = "gemini-1.5-flash" selected> Gemini 1.5 Flash **RECOMMENDED** </option>
+								<option value = "gemini-1.5-flash-8b"> Gemini 1.5 Flash 8B </option>
+							</select>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"title = "Chatbot's creativity and randomness."> Temperature&nbsp;
+							<input type="range" min = "0" max = "2" value = "1" step = "0.01" id = "temperature-slider" style = "width: 50%;"> </input>
+						</h3>
+						<h3> Framework </h3>
+						<input type = "checkbox" class = "toggle" id = "auto-response" hidden></input>
+						<label title = "Auto send the promt to chatbot after 'STOP RECORDING'." for = "auto-response"> Enable Auto Response </label>
+					<br>
+						<input type = "checkbox" class = "toggle" id = "auto-speak" hidden></input>
+						<label title = "Automate the process of speaking after generating response." for = "auto-speak"> Enable Auto Speak </label>
+					<br>
+						<input type = "checkbox" class = "toggle" id = "auto-restart" hidden></input>
+						<label title = "Automate the process of restart conversation again by clear and recorded the next user promt after finish the speaking." for = "auto-restart"> Enable Auto Restart </label>
+					<br>
 			<br>
 			<br>
 			<br>
@@ -87,8 +127,11 @@
 			</section>
 			-->
 		</div>
-		<script type = "module" src = "../src/base/scr/speech-synthesis.js"> </script>
+		
 		<script type = "module" src = "../src/base/scr/intergrative-ai.js"> </script>
+		<script type = "module" src = "../src/base/scr/speech-synthesis.js"> </script>
 		<script type = "module" src = "../src/base/scr/speech-recognition.js"> </script>
+		
+		<script src = "../src/base/scr/toggle.js"> </script>
 	</body>
 </html>

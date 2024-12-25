@@ -1,26 +1,38 @@
+import { sendMessage } from "./intergrative-ai.js";
+
 const recognition = new webkitSpeechRecognition();
 let record = false;
 recognition.continuous = true;
-recognition.lang = "en-US";
 
-let input = null;
-
+let webapi = document.getElementById("sr-api");
+let srlanguage = document.getElementById("sr-language-select");
 let transcription = document.getElementById("transcription");
 let response = document.getElementById("response");
-
 let autoresponse = document.getElementById("auto-response");
+let recordbutton = document.getElementById("record-button");
 
 export function listenMessage() {
 	if (record) {
-		recognition.stop();
-		document.getElementById("toggle-button").textContent = "Start Recording";
+		recordbutton.textContent = "Start Recording";
+		if (webapi.checked) {
+			recognition.stop();
+		}
+		else {
+			// impletment here
+		}
 		if (autoresponse.checked) {
 			sendMessage();
 		}
 	}
 	else {
-		recognition.start();
-		document.getElementById("toggle-button").textContent = "Stop Recording";
+		recognition.lang = srlanguage.value;
+		recordbutton.textContent = "Stop Recording";
+		if (webapi.checked) {
+			recognition.start();
+		}
+		else {
+			// impletment here
+		}
 	}
 	record = !record;
 }
@@ -33,8 +45,5 @@ recognition.onresult = function(event) {
 	transcription.value += transcript;
 };
 
-import { sendMessage } from "./intergrative-ai.js";
-
 document.getElementById("clear-button").addEventListener("click", clearMessage);
-
-document.getElementById("toggle-button").addEventListener("click", listenMessage);
+recordbutton.addEventListener("click", listenMessage);

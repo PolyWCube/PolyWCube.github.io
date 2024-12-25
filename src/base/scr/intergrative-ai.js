@@ -1,31 +1,37 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { speakMessage } from "./speech-synthesis.js";
+
 const API_KEY = "AIzaSyAL-WQeEaA5YlsofYMx57ysSJYfgFSlTJQ";
+const MAX_TOKEN = 20000;
 
 const generator = new GoogleGenerativeAI(API_KEY);
-const model = generator.getGenerativeModel({ model : "gemini-1.5-flash" });
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 40,
-  maxOutputTokens: 1000,
-  responseMimeType: "text/plain",
-};
+let model = generator.getGenerativeModel({ 
+	model : "gemini-1.5-flash",
+	generationConfig: {
+		temperature: 1,
+		maxOutputTokens: MAX_TOKEN,
+		responseMimeType: "text/plain"
+	}
+});
 
 let transcription = document.getElementById("transcription");
 let response = document.getElementById("response");
-
 let conversationhistory = document.getElementById("converstation-history");
-
 let autospeak = document.getElementById("auto-speak");
+let temperatureslider = document.getElementById("temperature-slider");
+let modelselect = document.getElementById("model-select");
 
-import { speakMessage } from "./speech-synthesis.js";
+let chathistory = [];
+
+const botinstruction = "[Bot instruction: generate response short, natural, human-like] ";
 
 async function generateResponse() {
-	let input = (transcription.value + " " + conversationhistory.value).trim();
+	let input = transcription.value.trim();
 	try {
-		const output = await model.generateContent(input);
-		response.value = output.response.text();
+		const chat = model.startChat({ history: chathistory });
+		const genratedContent = await chat.sendMessage(botinstruction + input);
+		const output = genratedContent.response.text();
+		response.value = output;
 		generateHistory();
 	} catch (error) {
 		console.error("Error generating response:", error);
@@ -37,10 +43,12 @@ async function generateResponse() {
 }
 
 async function generateHistory() {
-	let input = "This is the previous history: " + conversationhistory.value + " Please join the sentence: " + response.value + "and generate the new history with optimize and main ideas.";
 	try {
-		const output = await model.generateContent(input);
-		conversationhistory.value = output.response.text();
+		conversationhistory.value = "";
+		for (let index = 0; index < chathistory.length; ++index) {
+			conversationhistory.value += chathistory[index].role + ": " + chathistory[index].parts[0].text.replace(botinstruction, "") + '\n';
+		}
+		conversationhistory.scrollTop = conversationhistory.scrollHeight;
 	} catch (error) {
 		console.error("Error generating history:", error);
 		conversationhistory.value = "Internal error";
@@ -49,9 +57,25 @@ async function generateHistory() {
 
 export function sendMessage() {
 	response.value = "Generating response...";
-	setTimeout(() => {
-		generateResponse();
-	}, 500);
+	generateResponse();
 }
 
+async function updateModelConfig() {
+	const bottemperature = parseFloat(temperatureslider.value);
+
+	const generationConfig = {
+		temperature: bottemperature,
+		maxOutputTokens: MAX_TOKEN,
+		responseMimeType: "text/plain"
+	};
+
+	await createModel(modelselect.value, generationConfig);
+}
+
+async function createModel(modelName, generationConfig) {
+	model = generator.getGenerativeModel({ model: modelName, generationConfig: generationConfig });
+}
+
+temperatureslider.addEventListener("change", updateModelConfig);
+modelselect.addEventListener("change", updateModelConfig);
 document.getElementById("generate-button").addEventListener("click", sendMessage);
