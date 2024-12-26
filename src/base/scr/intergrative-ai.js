@@ -21,6 +21,9 @@ let autospeak = document.getElementById("auto-speak");
 let temperatureslider = document.getElementById("temperature-slider");
 let modelselect = document.getElementById("model-select");
 
+let configurationbutton = document.getElementById("configuration-button");
+let configuration = document.getElementById("configuration");
+
 let chathistory = [];
 
 const botinstruction = "[Bot instruction: generate response short, natural, human-like] ";
@@ -79,3 +82,8 @@ async function createModel(modelName, generationConfig) {
 temperatureslider.addEventListener("change", updateModelConfig);
 modelselect.addEventListener("change", updateModelConfig);
 document.getElementById("generate-button").addEventListener("click", sendMessage);
+
+configurationbutton.addEventListener("click", () => {
+	if (configuration.style.display === "none") configuration.style.display = "block";
+	else configuration.style.display = "none";
+});
