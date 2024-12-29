@@ -1,25 +1,24 @@
 import { sendMessage } from "./intergrative-ai.js";
-
-const recognition = new webkitSpeechRecognition();
+import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 let record = false;
-recognition.continuous = true;
 
-let webapi = document.getElementById("sr-api");
+recognition.continuous = true;
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
 let srlanguage = document.getElementById("sr-language-select");
 let transcription = document.getElementById("transcription");
 let response = document.getElementById("response");
 let autoresponse = document.getElementById("auto-response");
 let recordbutton = document.getElementById("record-button");
+let musicrecognize = false;
 
 export function listenMessage() {
 	if (record) {
 		recordbutton.textContent = "Start Recording";
-		if (webapi.checked) {
-			recognition.stop();
-		}
-		else {
-			// impletment here
-		}
+		stopVolumeCapture();
+		recognition.stop();
 		if (autoresponse.checked) {
 			sendMessage();
 		}
@@ -27,21 +26,19 @@ export function listenMessage() {
 	else {
 		recognition.lang = srlanguage.value;
 		recordbutton.textContent = "Stop Recording";
-		if (webapi.checked) {
-			recognition.start();
-		}
-		else {
-			// impletment here
-		}
+		startVolumeCapture();
+		recognition.start();
 	}
 	record = !record;
 }
 
-export function clearMessage() { transcription.value = ""; }
+export function clearMessage() { 
+	transcription.value = ""; 
+}
 
 recognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
-	
+
 	transcription.value += transcript;
 };
 

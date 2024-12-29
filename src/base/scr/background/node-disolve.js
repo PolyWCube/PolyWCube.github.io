@@ -1,45 +1,71 @@
 const canvas = document.getElementById("background-canvas");
 const ctx = canvas.getContext('2d');
 
-const NODE_COUNT = 100;
-const CONNECT_RANGE = 50;
+const NODE_COUNT = 50;
+const CONNECT_RANGE = 100;
 const INTERACTION_RANGE = 1000;
-const MAX_SPEED = 4;
-const REPULSION_FORCE = 10;
-const ALIGNMENT_FORCE = 5;
+const MAX_SPEED = 2;
+const REPULSION_FORCE = 100;
+const REPULSION_RANGE = 1000;
+const ALIGNMENT_FORCE = 100;
 const OVERLAP_FACTOR = 2;
 const NODE_RADIUS_MIN = 5;
 const NODE_RADIUS_MAX = 10;
-let CENTER_ATTRACT_FORCE = 0.0000005;
+let CENTER_ATTRACT_FORCE = 0;
+const MIN_CENTER_ATTRACT_FORCE = 0.000001;
 
-navigator.mediaDevices.getUserMedia({ audio: true })
-.then(stream => {
-    const audioContext = new AudioContext();
-    const mediaStreamSource = audioContext.createMediaStreamSource(stream);
-    
-    const analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256;
-    let dataArray = new Uint8Array(analyser.frequencyBinCount);
-    
-    mediaStreamSource.connect(analyser);
-    
-    function updateVolume() {
-        analyser.getByteFrequencyData(dataArray);
-        const volume = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-		let force = 1 / (volume * 10000);
-		if (isFinite(force)) CENTER_ATTRACT_FORCE = force;
-		else CENTER_ATTRACT_FORCE = 0.00005;
-		
-		console.log(volume);
-        
-        requestAnimationFrame(updateVolume);
-    }
-    
-    updateVolume();
-})
-.catch(error => {
-    console.error('Error accessing microphone:', error);
-});
+let volumecapture = false;
+
+const constraints = {
+	audio: {
+		echoCancellation: false,
+		noiseSuppression: false,
+		autoGainControl: false
+	}
+};
+
+export function startVolumeCapture() {
+	if (!volumecapture) {
+		navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+			const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			const mediaStreamSource = audioContext.createMediaStreamSource(stream);
+
+			const analyser = audioContext.createAnalyser();
+			analyser.fftSize = 32;
+			let dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+			mediaStreamSource.connect(analyser);
+
+			function updateVolume() {
+				analyser.getByteFrequencyData(dataArray);
+
+				let sum = 0;
+				dataArray.forEach(val => sum += val);
+				const volume = sum / dataArray.length;
+
+				let targetForce = 1 / (volume * 100000);
+
+				CENTER_ATTRACT_FORCE = isFinite(targetForce) ? targetForce : 0.00005;
+				if (volumecapture) requestAnimationFrame(updateVolume);
+				else {
+					CENTER_ATTRACT_FORCE = MIN_CENTER_ATTRACT_FORCE;
+					mediaStreamSource.disconnect();
+				}
+			}
+			updateVolume();
+		}).catch(error => { console.error('Error accessing microphone:', error); });
+
+		volumecapture = true;
+	}
+}
+
+export function stopVolumeCapture() {
+	if (volumecapture) {
+		volumecapture = false;
+	}
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -50,7 +76,6 @@ let canvasCenterY = canvas.height / 2;
 const nodes = [];
 let lines = [];
 
-//Colors Array for visual distinction
 const colors = [
   "#FF5733", "#C70039", "#900C3F", "#6900B0", "#4100C4",
   "#1E88E5", "#039BE5", "#00BCD4", "#009688", "#4CAF50"
@@ -123,10 +148,8 @@ class Node {
         if (other !== this && this.distanceTo(other) < INTERACTION_RANGE) {
             const distance = this.distanceTo(other);
             const angle = Math.atan2(other.y - this.y, other.x - this.x);
-
-            // Apply repulsion force within the interaction range
-            const repulsionRange = 50; // Define the repulsion range
-            if (distance < repulsionRange) {
+			
+            if (distance < REPULSION_RANGE) {
                 const force = REPULSION_FORCE / (distance * distance);
                 this.dx -= force * Math.cos(angle);
                 this.dy -= force * Math.sin(angle);
@@ -198,7 +221,7 @@ function animate() {
 
 function createNodes() {
     for (let i = 0; i < NODE_COUNT; i++) {
-        const x = Math.random() * (canvas.width - 10) + 5; // prevent nodes from going off screen
+        const x = Math.random() * (canvas.width - 10) + 5;
         const y = Math.random() * (canvas.height - 10) + 5;
         const radius = 5 + Math.random() * 5;
         nodes.push(new Node(x, y, radius));
