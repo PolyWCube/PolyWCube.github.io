@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { speakMessage } from "./speech-synthesis.js";
 
-const API_KEY = ${{ secrets.GEMINI_API_KEY }};
+const API_KEY = process.env.GEMINI_API_KEY;
 const MAX_TOKEN = 20000;
 
 const generator = new GoogleGenerativeAI(API_KEY);
