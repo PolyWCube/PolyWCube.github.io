@@ -10,4 +10,4 @@ jobs:
             GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
         steps:
           - name: Display API Key
-            run: echo "API Key: $GEMINI_API_KEY_1"
+            run: echo $GEMINI_API_KEY_1
