@@ -1,5 +1,5 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { speakMessage } = require("./speech-synthesis.js");
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { speakMessage } from "./speech-synthesis.js";
 
 const API_KEY = process.env.GEMINI_API_KEY_1;
 const MAX_TOKEN = 20000;
