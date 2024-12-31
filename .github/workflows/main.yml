@@ -1,17 +1,13 @@
 name: Secrets
 
-on:
-    workflow_dispatch
-
+on: push
 jobs:
     secrets:
         runs-on: ubuntu-latest
         env:
             GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
+        working-directory: src/base/scr
         steps:
-          - name: Display API Key
-            run: |
-                echo $GEMINI_API_KEY_1
-                cd src/base/scr
-                node intergrative-ai.js
-            
+          - uses: actions/checkout@v3
+          - name: Run server
+          - run: node intergrative-ai.js
