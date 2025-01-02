@@ -2,5 +2,15 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0"
   },
-  "type": "module"
+  "type": "module",
+  "name": "polywcube.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PolyWCube",
+  "license": "MIT",
+  "description": ""
 }
