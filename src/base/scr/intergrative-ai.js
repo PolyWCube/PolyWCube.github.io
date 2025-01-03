@@ -5,10 +5,11 @@ const API_KEY = window.GEMINI_API_KEY_1;
 const MAX_TOKEN = 20000;
 
 const generator = new GoogleGenerativeAI(API_KEY);
-let modelconfig = (
+let modelconfig = {
 	model : "gemini-1.5-flash",
 	temperature: 1
 }
+const backendurl = "https://pwc-gemini-api.netlify.app/.netlify/functions/api-function";
 
 let transcription = document.getElementById("transcription");
 let response = document.getElementById("response");
@@ -25,7 +26,7 @@ let temperature
 async function generateResponse() {
 	let input = transcription.value.trim();
 	try {
-		const response = await fetch("/.netlify/functions/gemini-api", {
+		const response = await fetch(backendurl, {
 		method: "POST", headers: { "Content-Type": "application/json", },
 			body: JSON.stringify({ prompt: input, history: chathistory, modelconfig: modelconfig }),
 			});
