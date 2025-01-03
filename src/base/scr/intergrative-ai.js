@@ -19,9 +19,12 @@ let modelconfig = {
 async function generateResponse() {
 	let input = transcription.value.trim();
 	try {
+		const requestbody = { prompt: input, history: chathistory, modelconfig: modelconfig };
+		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(backendurl, {
-		method: "POST", headers: { "Content-Type": "application/json", },
-			body: JSON.stringify({ prompt: input, history: chathistory, modelconfig: modelconfig }),
+			method: "POST", 
+			headers: { "Content-Type": "application/json" },
+			body: jsbody
 			});
 
 		if (!response.ok) {
