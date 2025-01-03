@@ -2,7 +2,7 @@ import { speakMessage } from "./speech-synthesis.js";
 const backendurl = "https://pwc-gemini-api.netlify.app/.netlify/functions/api-function";
 
 let transcription = document.getElementById("transcription");
-let response = document.getElementById("response");
+let responsetext = document.getElementById("response");
 let conversationhistory = document.getElementById("converstation-history");
 let autospeak = document.getElementById("auto-speak");
 let temperatureslider = document.getElementById("temperature-slider");
@@ -32,12 +32,12 @@ async function generateResponse() {
 		}
 
 		const data = await response.json();
-		response.value = data.response;
+		responsetext.value = data.response;
 		chathistory = data.history;
 		generateHistory();
 	} catch (error) {
 		console.error("Error generating response:", error);
-		response.value = "An error occurred.";
+		responsetext.value = "An error occurred.";
 	}
 	if (autospeak.checked) {
 		speakMessage();
