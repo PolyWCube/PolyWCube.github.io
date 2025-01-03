@@ -13,8 +13,8 @@ let configuration = document.getElementById("configuration");
 
 let chathistory = [];
 let modelconfig = {
-	temperature = 1;
-	modelname = "gemini-1.5-flash";
+	temperature: 1,
+	modelname: "gemini-1.5-flash"
 };
 async function generateResponse() {
 	let input = transcription.value.trim();
