@@ -48,12 +48,12 @@ async function generateHistory() {
 	try {
 		conversationhistory.value = "";
 		for (let index = 0; index < chathistory.length; ++index) {
-			conversationhistory.value += chathistory[index].role + ": " + chathistory[index].parts[0].text.replace(botinstruction, "") + '\n';
+			conversationhistory.value += chathistory[index].role + ": " + chathistory[index].parts[0].text.replace("[Bot instruction: generate response short, natural, human-like] ", "") + '\n';
 		}
 		conversationhistory.scrollTop = conversationhistory.scrollHeight;
 	} catch (error) {
 		console.error("Error generating history:", error);
-		conversationhistory.value = "Internal error";
+		conversationhistory.value = "An error occurred.";
 	}
 }
 
