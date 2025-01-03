@@ -64,10 +64,6 @@ async function updateModelConfig() {
 	modelconfig.modelname = modelselect.value;
 }
 
-async function createModel(modelName, generationConfig) {
-	modelconfig = generator.getGenerativeModel({ model: modelName, generationConfig: generationConfig });
-}
-
 temperatureslider.addEventListener("change", updateModelConfig);
 modelselect.addEventListener("change", updateModelConfig);
 document.getElementById("generate-button").addEventListener("click", sendMessage);
