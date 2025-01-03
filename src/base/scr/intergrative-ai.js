@@ -1,14 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { speakMessage } from "./speech-synthesis.js";
-
-const API_KEY = window.GEMINI_API_KEY_1;
-const MAX_TOKEN = 20000;
-
-const generator = new GoogleGenerativeAI(API_KEY);
-let modelconfig = {
-	model : "gemini-1.5-flash",
-	temperature: 1
-}
 const backendurl = "https://pwc-gemini-api.netlify.app/.netlify/functions/api-function";
 
 let transcription = document.getElementById("transcription");
