@@ -5,14 +5,10 @@ const API_KEY = window.GEMINI_API_KEY_1;
 const MAX_TOKEN = 20000;
 
 const generator = new GoogleGenerativeAI(API_KEY);
-let model = generator.getGenerativeModel({ 
+let modelconfig = (
 	model : "gemini-1.5-flash",
-	generationConfig: {
-		temperature: 1,
-		maxOutputTokens: MAX_TOKEN,
-		responseMimeType: "text/plain"
-	}
-});
+	temperature: 1
+}
 
 let transcription = document.getElementById("transcription");
 let response = document.getElementById("response");
@@ -25,20 +21,26 @@ let configurationbutton = document.getElementById("configuration-button");
 let configuration = document.getElementById("configuration");
 
 let chathistory = [];
-
-const botinstruction = "[Bot instruction: generate response short, natural, human-like] ";
-
+let temperature
 async function generateResponse() {
 	let input = transcription.value.trim();
 	try {
-		const chat = model.startChat({ history: chathistory });
-		const genratedContent = await chat.sendMessage(botinstruction + input);
-		const output = genratedContent.response.text();
-		response.value = output;
+		const response = await fetch("/.netlify/functions/gemini-api", {
+		method: "POST", headers: { "Content-Type": "application/json", },
+			body: JSON.stringify({ prompt: input, history: chathistory, modelconfig: modelconfig }),
+			});
+
+		if (!response.ok) {
+			return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
+		}
+
+		const data = await response.json();
+		response.value = data.response;
+		chathistory = data.history;
 		generateHistory();
 	} catch (error) {
 		console.error("Error generating response:", error);
-		response.value = "Internal error";
+		response.value = "An error occurred.";
 	}
 	if (autospeak.checked) {
 		speakMessage();
@@ -64,19 +66,12 @@ export function sendMessage() {
 }
 
 async function updateModelConfig() {
-	const bottemperature = parseFloat(temperatureslider.value);
-
-	const generationConfig = {
-		temperature: bottemperature,
-		maxOutputTokens: MAX_TOKEN,
-		responseMimeType: "text/plain"
-	};
-
-	await createModel(modelselect.value, generationConfig);
+	modelconfig.temperature = parseFloat(temperatureslider.value);
+	modelconfig.modelname = modelselect.value;
 }
 
 async function createModel(modelName, generationConfig) {
-	model = generator.getGenerativeModel({ model: modelName, generationConfig: generationConfig });
+	modelconfig = generator.getGenerativeModel({ model: modelName, generationConfig: generationConfig });
 }
 
 temperatureslider.addEventListener("change", updateModelConfig);
