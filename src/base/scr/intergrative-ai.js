@@ -57,6 +57,20 @@ async function generateHistory() {
 	}
 }
 
+function downloadArray(array, filename) {
+	const jsonString = JSON.stringify(array);
+	const blob = new Blob([jsonString], { type: 'application/json' });
+	const url = URL.createObjectURL(blob);
+
+	const link = document.createElement('a');
+	link.href = url;
+	link.download = filename || 'data.json';
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	URL.revokeObjectURL(url);
+}
+
 export function sendMessage() {
 	response.value = "Generating response...";
 	generateResponse();
