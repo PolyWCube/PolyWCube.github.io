@@ -1,15 +1,18 @@
 import { speakMessage } from "./speech-synthesis.js";
-const backendurl = "https://pwc-gemini-api.netlify.app/.netlify/functions/api-function";
+const generativeaiendpoint = "https://pwc-gemini-api.netlify.app/.netlify/functions/generative-ai";
+const visionendpoint =  "https://pwc-gemini-api.netlify.app/.netlify/functions/vision";
 
-let transcription = document.getElementById("transcription");
-let responsetext = document.getElementById("response");
-let conversationhistory = document.getElementById("converstation-history");
-let autospeak = document.getElementById("auto-speak");
-let temperatureslider = document.getElementById("temperature-slider");
-let modelselect = document.getElementById("model-select");
-
-let configurationbutton = document.getElementById("configuration-button");
-let configuration = document.getElementById("configuration");
+const transcription = document.getElementById("transcription");
+const responsetext = document.getElementById("response");
+const conversationhistory = document.getElementById("converstation-history");
+const autospeak = document.getElementById("auto-speak");
+const temperatureslider = document.getElementById("temperature-slider");
+const modelselect = document.getElementById("model-select");
+const downloadhistory = document.getElementById("download-history");
+const uploadhistory = document.getElementById("upload-history");
+const configurationbutton = document.getElementById("configuration-button");
+const configuration = document.getElementById("configuration");
+const imageinput = document.getElementById('image-input');
 
 let chathistory = [];
 let modelconfig = {
@@ -17,11 +20,38 @@ let modelconfig = {
 	modelname: "gemini-1.5-flash"
 };
 async function generateResponse() {
-	let input = transcription.value.trim();
+	const imagedescription = "";
+	if (imageinput.files.length != 0) {
+		const file = imageinput.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = async (event) => {
+				const imageDataUrl = event.target.result;
+				try {
+					const response = await fetch(visionendpoint, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ image: imageDataUrl }),
+					});
+					if (!response.ok) {
+						const errorText = await response.text();
+						throw new Error(`${response.status} ${response.statusText} - ${errorText}`);
+					}
+					const data = await response.json();
+					imagedescription += data.description;
+				} catch (error) {
+					console.error("Error occur during fetch Vision API:", error);
+					responsetext.value = "An error occurred.";
+				}
+			};
+			reader.readAsDataURL(file);
+		}
+	}
+	let input = ((imagedescription != "") ? "[ Image description: " +imagedescription + "] " : "") + transcription.value.trim();
 	try {
 		const requestbody = { prompt: input, history: chathistory, modelconfig: modelconfig };
 		const jsbody = JSON.stringify(requestbody);
-		const response = await fetch(backendurl, {
+		const response = await fetch(generativeaiendpoint, {
 			method: "POST", 
 			headers: { "Content-Type": "application/json" },
 			body: jsbody
@@ -36,7 +66,7 @@ async function generateResponse() {
 		chathistory = data.history;
 		generateHistory();
 	} catch (error) {
-		console.error("Error generating response:", error);
+		console.error("Error occur during fetch Generative AI API:", error);
 		responsetext.value = "An error occurred.";
 	}
 	if (autospeak.checked) {
@@ -57,20 +87,6 @@ async function generateHistory() {
 	}
 }
 
-function downloadArray(array, filename) {
-	const jsonString = JSON.stringify(array);
-	const blob = new Blob([jsonString], { type: 'application/json' });
-	const url = URL.createObjectURL(blob);
-
-	const link = document.createElement('a');
-	link.href = url;
-	link.download = filename || 'data.json';
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link);
-	URL.revokeObjectURL(url);
-}
-
 export function sendMessage() {
 	response.value = "Generating response...";
 	generateResponse();
@@ -80,6 +96,38 @@ async function updateModelConfig() {
 	modelconfig.temperature = parseFloat(temperatureslider.value);
 	modelconfig.modelname = modelselect.value;
 }
+
+downloadhistory.addEventListener("click", () => {
+	const jsonString = JSON.stringify(chathistory);
+	const blob = new Blob([jsonString], { type: 'application/json' });
+	const url = URL.createObjectURL(blob);
+
+	const link = document.createElement('a');
+	link.href = url;
+	link.download = "conversation-history.json";
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	URL.revokeObjectURL(url);
+});
+
+uploadhistory.addEventListener("change", (event) => {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+		try {
+			const jsonContent = e.target.result;
+			chathistory = JSON.parse(jsonContent);
+			console.log("JSON Array:", chathistory);
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			alert("Invalid JSON file.");
+		}
+		};
+		reader.readAsText(file);
+	}
+});
 
 temperatureslider.addEventListener("change", updateModelConfig);
 modelselect.addEventListener("change", updateModelConfig);

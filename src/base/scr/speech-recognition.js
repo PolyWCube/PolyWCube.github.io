@@ -14,30 +14,30 @@ let recordbutton = document.getElementById("record-button");
 let autoresponse = document.getElementById("auto-response");
 
 export function listenMessage() {
-    if (record) {
-        recordbutton.textContent = "Start Recording";
-        stopVolumeCapture();
-        recognition.stop();
-        if (autoresponse.checked) {
-            sendMessage();
-        }
-    } else {
-        recognition.lang = srlanguage.value;
-        recordbutton.textContent = "Stop Recording";
-        startVolumeCapture();
-        recognition.start();
-    }
-    record = !record;
+	if (record) {
+		recordbutton.textContent = "Start Recording";
+		stopVolumeCapture();
+		recognition.stop();
+		if (autoresponse.checked) {
+			sendMessage();
+		}
+	} else {
+		recognition.lang = srlanguage.value;
+		recordbutton.textContent = "Stop Recording";
+		startVolumeCapture();
+		recognition.start();
+	}
+	record = !record;
 }
 
 export function clearMessage() {
-    transcription.value = "";
+	transcription.value = "";
 }
 
 document.getElementById("clear-button").addEventListener("click", clearMessage);
 recordbutton.addEventListener("click", listenMessage);
 
 recognition.onresult = function(event) {
-    const transcript = event.results[event.results.length - 1][0].transcript;
-    transcription.value += transcript;
+	const transcript = event.results[event.results.length - 1][0].transcript;
+	transcription.value += transcript;
 };

@@ -1,10 +1,5 @@
-const fileInput = document.getElementById('file-input');
-const uploadButton = document.getElementById('attachment-button');
+const fileInput = document.getElementById('image-input');
 const messageTextArea = document.getElementById('transcription');
-
-uploadButton.addEventListener('click', function() {
-    fileInput.click();
-});
 
 fileInput.addEventListener('change', function() {
     const file = fileInput.files[0];
