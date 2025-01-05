@@ -1,7 +1,7 @@
 const canvas = document.getElementById("background-canvas");
 const ctx = canvas.getContext('2d');
 
-const NODE_COUNT = 50;
+const NODE_COUNT = 40;
 const CONNECT_RANGE = 100;
 const INTERACTION_RANGE = 1000;
 const MAX_SPEED = 2;
@@ -11,8 +11,8 @@ const ALIGNMENT_FORCE = 100;
 const OVERLAP_FACTOR = 2;
 const NODE_RADIUS_MIN = 5;
 const NODE_RADIUS_MAX = 10;
-let CENTER_ATTRACT_FORCE = 0.00001;
-const MIN_CENTER_ATTRACT_FORCE = 0.00001;
+let CENTER_ATTRACT_FORCE = 0.0001;
+const MIN_CENTER_ATTRACT_FORCE = 0.0001;
 
 let volumecapture = false;
 
@@ -45,7 +45,7 @@ export function startVolumeCapture() {
 
 				let targetForce = 1 / (volume * 100000);
 
-				CENTER_ATTRACT_FORCE = isFinite(targetForce) ? targetForce : 0.000001;
+				CENTER_ATTRACT_FORCE = isFinite(targetForce) ? targetForce : 0.00001;
 				if (volumecapture) requestAnimationFrame(updateVolume);
 				else {
 					CENTER_ATTRACT_FORCE = MIN_CENTER_ATTRACT_FORCE;
