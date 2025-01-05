@@ -24,27 +24,34 @@ async function generateResponse() {
 	if (imageinput.files.length != 0) {
 		const file = imageinput.files[0];
 		if (file) {
-			const reader = new FileReader();
-			reader.onload = async (event) => {
-				const imageDataUrl = event.target.result;
-				try {
-					const response = await fetch(visionendpoint, {
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ image: imageDataUrl }),
-					});
-					if (!response.ok) {
-						const errorText = await response.text();
-						throw new Error(`${response.status} ${response.statusText} - ${errorText}`);
+			imagedescription = await new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onload = async (event) => {
+					const imageDataUrl = event.target.result;
+					try {
+						const response = await fetch(visionendpoint, {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ image: imageDataUrl }),
+						});
+
+						if (!response.ok) {
+							const errorText = await response.text();
+							reject(new Error(`${response.status} ${response.statusText} - ${errorText}`));
+							return;
+						}
+
+						const data = await response.json();
+						resolve(data.description);
+					} catch (error) {
+						reject(error);
 					}
-					const data = await response.json();
-					imagedescription += data.description;
-				} catch (error) {
-					console.error("Error occur during fetch Vision API:", error);
-					responsetext.value = "An error occurred.";
-				}
-			};
-			reader.readAsDataURL(file);
+				};
+				reader.onerror = (error) => {
+					reject(error);
+				};
+				reader.readAsDataURL(file);
+			});
 		}
 	}
 	let input = ((imagedescription != "") ? "[ Image description: " +imagedescription + "] " : "") + transcription.value.trim();
