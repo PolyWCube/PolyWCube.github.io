@@ -20,7 +20,7 @@ let modelconfig = {
 	modelname: "gemini-1.5-flash"
 };
 async function generateResponse() {
-	const imagedescription = "";
+	let imagedescription = "";
 	if (imageinput.files.length != 0) {
 		const file = imageinput.files[0];
 		if (file) {
