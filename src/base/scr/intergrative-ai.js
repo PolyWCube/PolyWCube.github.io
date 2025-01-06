@@ -13,6 +13,8 @@ const uploadhistory = document.getElementById("upload-history");
 const configurationbutton = document.getElementById("configuration-button");
 const configuration = document.getElementById("configuration");
 const imageinput = document.getElementById('image-input');
+const imagebutton = document.getElementById('image-button');
+const imagepreview = document.getElementById("image-preview");
 
 let chathistory = [];
 let modelconfig = {
@@ -85,7 +87,7 @@ async function generateHistory() {
 	try {
 		conversationhistory.value = "";
 		for (let index = 0; index < chathistory.length; ++index) {
-			conversationhistory.value += chathistory[index].role + ": " + chathistory[index].parts[0].text.replace("[Generate response not too long, natural, human-like] ", "") + '\n';
+			conversationhistory.value += chathistory[index].role + ": " + chathistory[index].parts[0].text + '\n';
 		}
 		conversationhistory.scrollTop = conversationhistory.scrollHeight;
 	} catch (error) {
@@ -133,6 +135,32 @@ uploadhistory.addEventListener("change", (event) => {
 		}
 		};
 		reader.readAsText(file);
+	}
+});
+
+imageinput.addEventListener("change", () => {
+	if (imageinput.files.length > 0) {
+		imagebutton.textContent = "Detach Image";
+		imagepreview.style.display = "block";
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			imagepreview.src = e.target.result;
+		};
+		reader.readAsDataURL(imageinput.files[0]);
+	} else {
+		imagebutton.textContent = "Attach Image";
+		imagepreview.src = "";
+		imagepreview.style.display = "none";
+	}
+});
+imagebutton.addEventListener("click", () => {
+	if (imagebutton.textContent === "Detach Image") {
+		imagebutton.textContent = "Attach Image";
+		imageinput.value = "";
+		imagepreview.src = "";
+		imagepreview.style.display = "none";
+	} else {
+		imageinput.click();
 	}
 });
 
