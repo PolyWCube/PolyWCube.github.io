@@ -8,11 +8,9 @@
 		
 		<!-- Style -->
 		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
+		<link rel = "icon" href = "../src/base/img/logo/logo.png">
 		
 		<!--Script-->
-		<!--
-		<script src = "../src/base/scr/quote-generator.js"> </script>
-		-->
 		</script>
 		<title>PolyWCube</title>
 		
@@ -20,23 +18,6 @@
 	
 	<body>
 		<div class = "main">
-			<!--<section class = "icon">
-				<h2 class = "logo"> < C U S T O M > </h2>
-			</section>
-			<section class = "nav_bar">
-				<div class = "menu">
-					<ul>
-						<li> <a href = "../project.html"> PROJECT </a> </li>
-						<li> <a href = "../resource.html"> RESOURCE </a> </li>
-						<li> <a href = "../index.html"> HOME </a> </li>
-						<li> <a href = "../contact.html"> CONTACT </a> </li>
-					<ul>
-				</div>
-				<div class = "directory">
-					<p> <a href = "../../resource.html">Resource</a> > <a href = "../biology.html">Biology</a> > <a>Characteric Of Life</a> </p>
-				</div>
-			</section>
-			-->
 			<div style = "z-index: -1;">
 				<canvas id = "background-canvas"style = "position: fixed; top: 0; left: 0;"> Your browser does not support the canvas element. </canvas>
 			</div>
@@ -46,9 +27,9 @@
 				<br style = "width: 80%; position: absolute;">
 					<h2> Chatbot Prompt </h2>
 					<br>
-					<textarea id = "response" style = "height: 100px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "The output message goes here" readonly></textarea>
+					<textarea id = "response" style = "height: 400px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "The output message goes here" readonly></textarea>
 				<br>
-					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly></textarea>
+					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly hidden></textarea>
 				</div>
 				<div style = "width: 80%; position: fixed; margin-top: -400px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
 					<h1> User Configuration </h1>

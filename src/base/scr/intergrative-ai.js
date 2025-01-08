@@ -36,18 +36,14 @@ async function generateResponse() {
 							headers: { "Content-Type": "application/json" },
 							body: JSON.stringify({ image: imageDataUrl }),
 						});
-
 						if (!response.ok) {
 							const errorText = await response.text();
 							reject(new Error(`${response.status} ${response.statusText} - ${errorText}`));
 							return;
 						}
-
 						const data = await response.json();
 						resolve(data.description);
-					} catch (error) {
-						reject(error);
-					}
+					} catch (error) reject(error);
 				};
 				reader.onerror = (error) => {
 					reject(error);
@@ -55,8 +51,12 @@ async function generateResponse() {
 				reader.readAsDataURL(file);
 			});
 		}
+		imagebutton.textContent = "Attach Image";
+		imageinput.value = "";
+		imagepreview.src = "";
+		imagepreview.style.display = "none";
 	}
-	let input = ((imagedescription != "") ? "[ Image description: " +imagedescription + "] " : "") + transcription.value.trim();
+	let input = ((imagedescription != "") ? "[ Image input: " + imagedescription + "] " : "") + transcription.value.trim();
 	try {
 		const requestbody = { prompt: input, history: chathistory, modelconfig: modelconfig };
 		const jsbody = JSON.stringify(requestbody);
@@ -65,22 +65,17 @@ async function generateResponse() {
 			headers: { "Content-Type": "application/json" },
 			body: jsbody
 			});
-
-		if (!response.ok) {
-			return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
-		}
-
+		if (!response.ok) return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
 		const data = await response.json();
 		responsetext.value = data.response;
 		chathistory = data.history;
 		generateHistory();
 	} catch (error) {
 		console.error("Error occur during fetch Generative AI API:", error);
-		responsetext.value = "An error occurred.";
+		responsetext.value = "An error occurred durring sending message to the chatbot.";
 	}
-	if (autospeak.checked) {
-		speakMessage();
-	}
+	if (autospeak.checked) speakMessage();
+	transcription.value = "";
 }
 
 async function generateHistory() {
@@ -92,7 +87,7 @@ async function generateHistory() {
 		conversationhistory.scrollTop = conversationhistory.scrollHeight;
 	} catch (error) {
 		console.error("Error generating history:", error);
-		conversationhistory.value = "An error occurred.";
+		conversationhistory.value = "An error occurred durring generating history.";
 	}
 }
 
@@ -125,14 +120,14 @@ uploadhistory.addEventListener("change", (event) => {
 	if (file) {
 		const reader = new FileReader();
 		reader.onload = (e) => {
-		try {
-			const jsonContent = e.target.result;
-			chathistory = JSON.parse(jsonContent);
-			console.log("JSON Array:", chathistory);
-		} catch (error) {
-			console.error("Error parsing JSON:", error);
-			alert("Invalid JSON file.");
-		}
+			try {
+				const jsonContent = e.target.result;
+				chathistory = JSON.parse(jsonContent);
+				console.log("JSON Array:", chathistory);
+			} catch (error) {
+				console.error("Error parsing JSON:", error);
+				alert("Invalid JSON file.");
+			}
 		};
 		reader.readAsText(file);
 	}

@@ -77,51 +77,50 @@ const nodes = [];
 let lines = [];
 
 const colors = [
-  "#FF5733", "#C70039", "#900C3F", "#6900B0", "#4100C4",
-  "#1E88E5", "#039BE5", "#00BCD4", "#009688", "#4CAF50"
+	"#FF5733", "#C70039", "#900C3F", "#6900B0", "#4100C4",
+	"#1E88E5", "#039BE5", "#00BCD4", "#009688", "#4CAF50"
 ];
 
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min);
+function randomIntFromInterval(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 class Node {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = NODE_RADIUS_MIN + Math.random() * (NODE_RADIUS_MAX - NODE_RADIUS_MIN);
-        this.dx = (Math.random() - 0.5) * MAX_SPEED;
-        this.dy = (Math.random() - 0.5) * MAX_SPEED;
-        this.colorIndex = randomIntFromInterval(0, colors.length - 1);
-    }
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+		this.radius = NODE_RADIUS_MIN + Math.random() * (NODE_RADIUS_MAX - NODE_RADIUS_MIN);
+		this.dx = (Math.random() - 0.5) * MAX_SPEED;
+		this.dy = (Math.random() - 0.5) * MAX_SPEED;
+		this.colorIndex = randomIntFromInterval(0, colors.length - 1);
+	}
 
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = colors[this.colorIndex];
-        ctx.fill();
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-    }
+	draw() {
+		ctx.beginPath();
+		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+		ctx.fillStyle = colors[this.colorIndex];
+		ctx.fill();
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = 0.5;
+		ctx.stroke();
+	}
 
-    move() {
+	move() {
 		this.handleCenterAttraction();
-        this.x += this.dx;
-        this.y += this.dy;
+		this.x += this.dx;
+		this.y += this.dy;
 
-        // Constrain to canvas
-        this.x = Math.max(this.radius, Math.min(this.x, canvas.width - this.radius));
-        this.y = Math.max(this.radius, Math.min(this.y, canvas.height - this.radius));
-        this.applyForces();
-        this.limitSpeed();
-    }
+		this.x = Math.max(this.radius, Math.min(this.x, canvas.width - this.radius));
+		this.y = Math.max(this.radius, Math.min(this.y, canvas.height - this.radius));
+		this.applyForces();
+		this.limitSpeed();
+	}
 	
 	handleCenterAttraction() {
 		const dx = canvasCenterX - this.x;
 		const dy = canvasCenterY - this.y;
 		const distance = Math.sqrt(dx * dx + dy * dy);
-		if (distance > 0) {  // Avoid division by zero
+		if (distance > 0) {
 			const force = CENTER_ATTRACT_FORCE * (distance * distance);
 			this.dx += force * dx / distance;
 			this.dy += force * dy / distance;
@@ -129,76 +128,76 @@ class Node {
 	}
 
 
-    handleWalls() {
-        const wallThickness = 5;
+	handleWalls() {
+		const wallThickness = 5;
 
-        if (this.x + this.radius > canvas.width - wallThickness || this.x - this.radius < wallThickness) {
-            this.dx *= -0.8;
-            this.visualFeedback();
-        }
-        if (this.y + this.radius > canvas.height - wallThickness || this.y - this.radius < wallThickness) {
-            this.dy *= -0.8;
-            this.visualFeedback();
-        }
-    }
+		if (this.x + this.radius > canvas.width - wallThickness || this.x - this.radius < wallThickness) {
+			this.dx *= -0.8;
+			this.visualFeedback();
+		}
+		if (this.y + this.radius > canvas.height - wallThickness || this.y - this.radius < wallThickness) {
+			this.dy *= -0.8;
+			this.visualFeedback();
+		}
+	}
 
 
 	applyForces() {
-    nodes.forEach(other => {
-        if (other !== this && this.distanceTo(other) < INTERACTION_RANGE) {
-            const distance = this.distanceTo(other);
-            const angle = Math.atan2(other.y - this.y, other.x - this.x);
+	nodes.forEach(other => {
+		if (other !== this && this.distanceTo(other) < INTERACTION_RANGE) {
+			const distance = this.distanceTo(other);
+			const angle = Math.atan2(other.y - this.y, other.x - this.x);
 			
-            if (distance < REPULSION_RANGE) {
-                const force = REPULSION_FORCE / (distance * distance);
-                this.dx -= force * Math.cos(angle);
-                this.dy -= force * Math.sin(angle);
-            }
-        }
-    });
+			if (distance < REPULSION_RANGE) {
+				const force = REPULSION_FORCE / (distance * distance);
+				this.dx -= force * Math.cos(angle);
+				this.dy -= force * Math.sin(angle);
+			}
+		}
+	});
 }
 
-    limitSpeed() {
-        const speed = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-        if (speed > MAX_SPEED) {
-            const factor = MAX_SPEED / speed;
-            this.dx *= factor;
-            this.dy *= factor;
-        }
-    }
+	limitSpeed() {
+		const speed = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+		if (speed > MAX_SPEED) {
+			const factor = MAX_SPEED / speed;
+			this.dx *= factor;
+			this.dy *= factor;
+		}
+	}
 
-    distanceTo(otherNode) {
-        return Math.sqrt((this.x - otherNode.x) * (this.x - otherNode.x) + (this.y - otherNode.y) * (this.y - otherNode.y));
-    }
+	distanceTo(otherNode) {
+		return Math.sqrt((this.x - otherNode.x) * (this.x - otherNode.x) + (this.y - otherNode.y) * (this.y - otherNode.y));
+	}
 }
 
 function updateConnections() {
-    lines = [];
-    for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-            if (nodes[i].distanceTo(nodes[j]) <= CONNECT_RANGE) {
-                const lineWidth = 1 + Math.max(0, 2 - nodes[i].distanceTo(nodes[j]) / CONNECT_RANGE);
-                lines.push(new Line(nodes[i], nodes[j], lineWidth));
-            }
-        }
-    }
+	lines = [];
+	for (let i = 0; i < nodes.length; i++) {
+		for (let j = i + 1; j < nodes.length; j++) {
+			if (nodes[i].distanceTo(nodes[j]) <= CONNECT_RANGE) {
+				const lineWidth = 1 + Math.max(0, 2 - nodes[i].distanceTo(nodes[j]) / CONNECT_RANGE);
+				lines.push(new Line(nodes[i], nodes[j], lineWidth));
+			}
+		}
+	}
 }
 
 class Line {
-    constructor(startNode, endNode, lineWidth) {
-        this.startNode = startNode;
-        this.endNode = endNode;
-        this.lineWidth = lineWidth;
-    }
+	constructor(startNode, endNode, lineWidth) {
+		this.startNode = startNode;
+		this.endNode = endNode;
+		this.lineWidth = lineWidth;
+	}
 
-    draw() {
-        ctx.beginPath();
-        ctx.moveTo(this.startNode.x, this.startNode.y);
-        ctx.lineTo(this.endNode.x, this.endNode.y);
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = this.lineWidth;
-        ctx.stroke();
-    }
+	draw() {
+		ctx.beginPath();
+		ctx.moveTo(this.startNode.x, this.startNode.y);
+		ctx.lineTo(this.endNode.x, this.endNode.y);
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = this.lineWidth;
+		ctx.stroke();
+	}
 }
 
 function animate() {
@@ -212,20 +211,20 @@ function animate() {
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
-    nodes.forEach(node => node.move());
-    nodes.forEach(node => node.draw());
-    updateConnections();
-    lines.forEach(line => line.draw());
-    requestAnimationFrame(animate);
+	nodes.forEach(node => node.move());
+	nodes.forEach(node => node.draw());
+	updateConnections();
+	lines.forEach(line => line.draw());
+	requestAnimationFrame(animate);
 }
 
 function createNodes() {
-    for (let i = 0; i < NODE_COUNT; i++) {
-        const x = Math.random() * (canvas.width - 10) + 5;
-        const y = Math.random() * (canvas.height - 10) + 5;
-        const radius = 5 + Math.random() * 5;
-        nodes.push(new Node(x, y, radius));
-    }
+	for (let i = 0; i < NODE_COUNT; i++) {
+		const x = Math.random() * (canvas.width - 10) + 5;
+		const y = Math.random() * (canvas.height - 10) + 5;
+		const radius = 5 + Math.random() * 5;
+		nodes.push(new Node(x, y, radius));
+	}
 }
 
 createNodes();
