@@ -15,7 +15,7 @@ let autoresponse = document.getElementById("auto-response");
 
 export function listenMessage() {
 	if (record) {
-		recordbutton.textContent = "Start Recording";
+		recordbutton.textContent = "Start";
 		stopVolumeCapture();
 		recognition.stop();
 		if (autoresponse.checked) {
@@ -23,7 +23,7 @@ export function listenMessage() {
 		}
 	} else {
 		recognition.lang = srlanguage.value;
-		recordbutton.textContent = "Stop Recording";
+		recordbutton.textContent = "Stop";
 		startVolumeCapture();
 		recognition.start();
 	}

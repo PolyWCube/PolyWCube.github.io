@@ -43,7 +43,9 @@ async function generateResponse() {
 						}
 						const data = await response.json();
 						resolve(data.description);
-					} catch (error) reject(error);
+					} catch (error) {
+						reject(error);
+					}
 				};
 				reader.onerror = (error) => {
 					reject(error);
