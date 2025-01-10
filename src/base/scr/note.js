@@ -31,7 +31,7 @@ function displayNotes() {
 
 function checkNotes() {
 	const now = Date.now();
-	let noteText = "";
+	let noteText = "[Note: ";
 
 	notes.forEach((note, index) => {
 		if (note.time <= now) {
@@ -39,14 +39,14 @@ function checkNotes() {
 			const formattedDate = date.toLocaleDateString();
 			const formattedTime = date.toLocaleTimeString();
 			
-			noteText += `${note.event} at ${formattedDate} ${formattedTime}\n`;
+			noteText += `${note.event} at ${formattedDate} ${formattedTime}, `;
 			notes.splice(index, 1);
 			displayNotes(notes);
 		}
 	});
 	
-	if (noteText == "") return;
-	noteText += "are/is passed."
+	if (noteText == "[Note: ") return;
+	noteText += "*System generated* Remind the user]"
 	
 	timeResponse(noteText);
 }
@@ -64,7 +64,7 @@ export function createNotes(notes) {
 	const events = [];
 	const regex = /\[(.*?) \| (.*?)\]/g;
 	let match;
-	let response = "Noted: ";
+	let response = "";
 
 	while ((match = regex.exec(notes)) !== null) {
 		events.push({ event: match[1].trim(), time: match[2].trim() });

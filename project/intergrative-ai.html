@@ -31,7 +31,7 @@
 				<br>
 					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly hidden></textarea>
 				</div>
-				<div style = "width: 90%; position: fixed; margin-top: -480px; margin-left: 5%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
+				<div style = "width: 90%; position: fixed; margin-top: -510px; margin-left: 5%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
 					<h1> User Configuration </h1>
 						<h3> Speech Recognition (SR/STT) </h3>
 						<h3 style = "text-align: center;"> Language
@@ -62,6 +62,9 @@
 						<h3 style = "display: flex; align-items: center; justify-content: center;"> Speed &nbsp;
 							<input type="range" min = "0.5" max = "2" value = "0.8" step = "0.02" id = "speed-slider" style = "width: 50%;"> </input>
 						</h3>
+						<input type = "checkbox" class = "toggle" id = "local-voice" hidden checked></input>
+						<label title = "Local voice brings more stable model supported in the browser." for = "local-voice"> Enable Local Voice </label>
+					<br>
 						<h3> Natural Language Processing (NLP/Gemini) </h3>
 						<h3 style = "text-align: center;"> Model
 							<select id="model-select">
@@ -73,7 +76,6 @@
 						<h3 style = "display: flex; align-items: center; justify-content: center;"title = "Chatbot's creativity and randomness."> Temperature&nbsp;
 							<input type="range" min = "0" max = "2" value = "1" step = "0.01" id = "temperature-slider" style = "width: 50%;"> </input>
 						</h3>
-						<h3> Framework </h3>
 						<input type = "checkbox" class = "toggle" id = "auto-response" hidden></input>
 						<label title = "Auto send the promt to chatbot after 'STOP RECORDING'." for = "auto-response"> Enable Auto Response </label>
 					<br>
@@ -82,19 +84,19 @@
 					<br>
 						<input type = "checkbox" class = "toggle" id = "auto-restart" hidden></input>
 						<label title = "Automate the process of restart conversation again by clear and recorded the next user promt after finish the speaking." for = "auto-restart"> Enable Auto Restart </label>
-						<h3> History </h3>
+					<br>
 						<input id = "upload-history" type = "file" hidden></input>
 						<button type = "file" style = "font-size: 60%;"> 
-							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload </label>
+							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload History </label>
 						</button>
-						<button id = "download-history" style = "font-size: 60%;"> Download </button>
+						<button id = "download-history" style = "font-size: 60%;"> Download History </button>
 					<br>
 					<br>
 				</div>
-				<div style = "width: 80%; position: fixed; margin-top: -400px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "note">
+				<div style = "width: 80%; position: fixed; margin-top: -450px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "note">
 					<h1>Your Notes</h1>
 					<br>
-					<textarea id="note-display" style = "height: 350px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "empty" readonly></textarea>
+					<textarea id="note-display" style = "height: 300px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "Empty" readonly></textarea>
 					<br>
 					<br>
 				</div>
@@ -113,7 +115,7 @@
 					<button id = "note-button" style = "font-size: 60%;"> Note </button>
 					<textarea id = "transcription" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; width: 100%; height: 100px; font-size: 50%;" placeholder = "Input your prompt here" input = "this.scrollTop = this.scrollHeight;"></textarea>
 				</section>
-				<section style = "margin-right: 2%; margin-left: 2%; flex-shrink: 0; padding-top: 5%;">
+				<section style = "margin-right: 2%; margin-left: 2%; flex-shrink: 0; padding-top: 5%; height: 100%;">
 					<input type= "file" id = "audio-input" hidden> </input>
 					<button id = "audio-button" type = "file" accept="audio/*" style = "font-size: 60%;"> Attach Audio </button>
 				<br>

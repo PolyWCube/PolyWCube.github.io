@@ -1,4 +1,3 @@
-
 let speech = new SpeechSynthesisUtterance();
 speech.rate = 1.0;
 speech.pitch = 1.0;
@@ -9,22 +8,70 @@ let voices = [];
 let autorestart = document.getElementById("auto-restart");
 let language = document.getElementById("language");
 const voiceselect = document.getElementById("voice-select");
+const localvoice = document.getElementById("local-voice");
 
 let speak = false;
+
+const MAX_CHUNK_LENGTH = 150;
 
 export function speakMessage() {
 	if (speak) {
 		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
-	} else {
-		speechSynthesis.cancel();
-		const message = document.getElementById("response").value;
-		speech.text = message;
-		speech.voice = voices.find(voice => voice.name === voiceselect.value);
-		speechSynthesis.speak(speech);
-		document.getElementById("speak-button").textContent = "Stop";
+		speak = false;
+		return;
 	}
-	speak = !speak;
+
+	speechSynthesis.cancel();
+	const message = document.getElementById("response").value;
+	if (!message) return;
+
+	const speakChunk = (text) => {
+		speech.text = text;
+		speechSynthesis.speak(speech);
+		return new Promise(resolve => {
+			speech.onend = resolve;
+			speech.onerror = (event) => {
+				console.error("Speech synthesis error:", event.error);
+				resolve();
+			};
+		});
+	};
+
+	const chunkSentences = (text) => {
+		const sentences = text.split(/(?<=[.?!])\s+/);
+		const chunks = [];
+		let currentChunk = "";
+
+		for (const sentence of sentences) {
+			if (currentChunk.length + sentence.length + 1 <= MAX_CHUNK_LENGTH) {
+				currentChunk += (currentChunk ? " " : "") + sentence;
+			} else {
+				chunks.push(currentChunk);
+				currentChunk = sentence;
+			}
+		}
+		chunks.push(currentChunk);
+		return chunks;
+	};
+
+	(async () => {
+		speak = true;
+		document.getElementById("speak-button").textContent = "Stop";
+
+		const chunks = chunkSentences(message);
+		for (const chunk of chunks) {
+			await speakChunk(chunk);
+		}
+
+		if (autorestart.checked) {
+			clearMessage();
+			listenMessage();
+		}
+
+		speak = false;
+		document.getElementById("speak-button").textContent = "Speak";
+	})();
 }
 
 import { listenMessage, clearMessage } from "./speech-recognition.js";
@@ -40,13 +87,23 @@ speech.addEventListener("end", () => {
 
 function populateVoiceSelect() {
 	voices = speechSynthesis.getVoices();
+	const localVoices = voices.filter(voice => voice.localService);
 	voiceselect.options.length = 0;
-	voices.forEach(voice => {
-		var option = document.createElement("option");
-		option.textContent = voice.name;
-		option.value = voice.name;
-		voiceselect.appendChild(option);
-	});
+	if (localVoices.length > 0 && localvoice.checked) {
+		localVoices.forEach(voice => {
+			var option = document.createElement("option");
+			option.textContent = voice.name;
+			option.value = voice.name;
+			voiceselect.appendChild(option);
+		});
+	} else {
+		voices.forEach(voice => {
+			var option = document.createElement("option");
+			option.textContent = voice.name;
+			option.value = voice.name;
+			voiceselect.appendChild(option);
+		});
+	}
 }
 
 speechSynthesis.onvoiceschanged = populateVoiceSelect;
@@ -60,5 +117,9 @@ document.getElementById("volume-slider").addEventListener("change", function() {
 document.getElementById("speed-slider").addEventListener("change", function() {
 	speech.rate = this.value;
 });
+
+localvoice.addEventListener("change", function() {
+	populateVoiceSelect();
+})
 
 document.getElementById("speak-button").addEventListener("click", speakMessage);

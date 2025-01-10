@@ -1,7 +1,7 @@
 const canvas = document.getElementById("background-canvas");
 const ctx = canvas.getContext('2d');
 
-const NODE_COUNT = 100;
+const NODE_COUNT = 50;
 const CONNECT_RANGE = 100;
 const INTERACTION_RANGE = 1000;
 const MAX_SPEED = 2;
