@@ -34,7 +34,7 @@ async function generateResponse() {
 	let iotdescription = "";
 	let notedescription = "";
 	try {
-		const requestbody = { prompt: input, history: chathistory };
+		const requestbody = { prompt: userprompt, history: chathistory };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(timeendpoint, {
 			method: "POST", 
@@ -44,8 +44,7 @@ async function generateResponse() {
 		if (!response.ok) return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
 		const data = await response.json();
 		let note = data.note;
-		createNotes(note);
-		
+		notedescription = createNotes(note);
 	} catch (error) {
 		console.error("Error occur during fetch Time API:", error);
 		responsetext.value = "An error occurred durring sending message to the chatbot.";
