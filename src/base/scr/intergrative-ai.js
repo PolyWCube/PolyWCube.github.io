@@ -35,7 +35,7 @@ async function generateResponse() {
 	let notedescription = "";
 	try {
 		const today = new Date();
-		const requestbody = { prompt: "Date: " + today + ". " + userprompt, history: chathistory };
+		const requestbody = { prompt: "Date: " + today.toLocaleString() + ". " + userprompt, history: chathistory };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(timeendpoint, {
 			method: "POST", 

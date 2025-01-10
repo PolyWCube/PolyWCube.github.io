@@ -36,10 +36,9 @@ function checkNotes() {
 	notes.forEach((note, index) => {
 		if (note.time <= now) {
 			const date = new Date(note.time);
-			const formattedDate = date.toLocaleDateString();
-			const formattedTime = date.toLocaleTimeString();
+			const localTime = date.toLocaleString();
 			
-			noteText += `${note.event} at ${formattedDate} ${formattedTime}, `;
+			noteText += `${note.event} at ${localTime}, `;
 			notes.splice(index, 1);
 			displayNotes(notes);
 		}
