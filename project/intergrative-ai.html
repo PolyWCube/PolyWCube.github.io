@@ -27,7 +27,7 @@
 				<br style = "width: 80%; position: absolute;">
 					<h2> Chatbot Prompt </h2>
 					<br>
-					<textarea id = "response" style = "height: 400px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "The output message goes here" readonly></textarea>
+					<textarea id = "response" style = "height: 350px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "The output message goes here" readonly></textarea>
 				<br>
 					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly hidden></textarea>
 				</div>
@@ -82,14 +82,26 @@
 					<br>
 						<input type = "checkbox" class = "toggle" id = "auto-restart" hidden></input>
 						<label title = "Automate the process of restart conversation again by clear and recorded the next user promt after finish the speaking." for = "auto-restart"> Enable Auto Restart </label>
-					<br>
+						<h3> History </h3>
 						<input id = "upload-history" type = "file" hidden></input>
 						<button type = "file" style = "font-size: 60%;"> 
-							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload History </label>
+							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload </label>
 						</button>
-						<button id = "download-history" style = "font-size: 60%;"> Download History </button>
+						<button id = "download-history" style = "font-size: 60%;"> Download </button>
 					<br>
 					<br>
+				</div>
+				<div style = "width: 80%; position: fixed; margin-top: -400px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "note">
+					<label for="noteText">Note:</label><br>
+					<textarea id="noteText" rows="4" cols="50"></textarea><br><br>
+
+					<label for="noteTime">Set Time (YYYY-MM-DD HH:mm):</label>
+					<input type="datetime-local" id="noteTime"><br><br>
+
+					<button id = "note-create-button">Create Note</button>
+
+					<h2>Your Notes</h2>
+					<div id="note-display"></div>
 				</div>
 			<br>
 			<br>
@@ -101,15 +113,19 @@
 					<button id = "clear-button" style = "font-size: 60%;"> Clear </button>
 					<button id = "speak-button" style = "font-size: 60%;"> Speak </button>
 				<br>
-					<button id = "generate-button" style = "font-size: 60%;"> Generate </button>
+					<button id = "generate-button" style = "font-size: 60%;"> Send </button>
 					<button id = "configuration-button" style = "font-size: 60%;"> Config </button>
+					<button id = "note-button" style = "font-size: 60%;"> Note </button>
 					<textarea id = "transcription" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; width: 100%; height: 100px; font-size: 50%;" placeholder = "Input your prompt here" input = "this.scrollTop = this.scrollHeight;"></textarea>
 				</section>
 				<section style = "margin-right: 2%; margin-left: 2%; flex-shrink: 0; padding-top: 5%;">
+					<input type= "file" id = "audio-input" hidden> </input>
+					<button id = "audio-button" type = "file" accept="audio/*" style = "font-size: 60%;"> Attach Audio </button>
+				<br>
 					<input type= "file" id = "image-input" hidden> </input>
 					<button id = "image-button" type = "file" accept="image/*" style = "font-size: 60%;"> Attach Image </button>
 				<br>
-					<image id = "image-preview" style = "width: 132px; height: 132px;"> </image>
+					<image id = "image-preview" style = "width: 132px; height: 100px; border: 1px solid #fff;"> </image>
 				</section>
 			</section>
 		</div>
@@ -117,6 +133,7 @@
 		<script type = "module" src = "../src/base/scr/speech-synthesis.js"> </script>
 		<script type = "module" src = "../src/base/scr/speech-recognition.js"> </script>
 		<script type = "module" src = "../src/base/scr/background/node-disolve.js"> </script>
+		<script type = "module" src = "../src/base/scr/note.js"> </script>
 		
 		<script src = "../src/base/scr/toggle.js"> </script>
 	</body>

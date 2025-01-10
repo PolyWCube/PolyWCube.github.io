@@ -1,6 +1,9 @@
 import { speakMessage } from "./speech-synthesis.js";
+import { createNotes } from "./note.js";
 const generativeaiendpoint = "https://pwc-gemini-api.netlify.app/.netlify/functions/generative-ai";
 const visionendpoint =  "https://pwc-gemini-api.netlify.app/.netlify/functions/vision";
+const whisperendpoint =  "https://pwc-gemini-api.netlify.app/.netlify/functions/whisper";
+const timeendpoint =  "https://pwc-gemini-api.netlify.app/.netlify/functions/time";
 
 const transcription = document.getElementById("transcription");
 const responsetext = document.getElementById("response");
@@ -15,6 +18,8 @@ const configuration = document.getElementById("configuration");
 const imageinput = document.getElementById('image-input');
 const imagebutton = document.getElementById('image-button');
 const imagepreview = document.getElementById("image-preview");
+const audioinput = document.getElementById('audio-input');
+const audiobutton = document.getElementById('audio-button');
 
 let chathistory = [];
 let modelconfig = {
@@ -22,7 +27,31 @@ let modelconfig = {
 	modelname: "gemini-1.5-flash"
 };
 async function generateResponse() {
+	const userprompt = transcription.value.trim();
+	let inputprompt = "";
 	let imagedescription = "";
+	let audiodescription = "";
+	let iotdescription = "";
+	let notedescription = "";
+	try {
+		const requestbody = { prompt: input, history: chathistory };
+		const jsbody = JSON.stringify(requestbody);
+		const response = await fetch(timeendpoint, {
+			method: "POST", 
+			headers: { "Content-Type": "application/json" },
+			body: jsbody
+			});
+		if (!response.ok) return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
+		const data = await response.json();
+		let note = data.note;
+		createNotes(note);
+		
+	} catch (error) {
+		console.error("Error occur during fetch Time API:", error);
+		responsetext.value = "An error occurred durring sending message to the chatbot.";
+	}
+	
+	
 	if (imageinput.files.length != 0) {
 		const file = imageinput.files[0];
 		if (file) {
@@ -34,7 +63,7 @@ async function generateResponse() {
 						const response = await fetch(visionendpoint, {
 							method: "POST",
 							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify({ image: imageDataUrl }),
+							body: JSON.stringify({ image: imageDataUrl, prompt: userprompt })
 						});
 						if (!response.ok) {
 							const errorText = await response.text();
@@ -43,24 +72,53 @@ async function generateResponse() {
 						}
 						const data = await response.json();
 						resolve(data.description);
-					} catch (error) {
-						reject(error);
-					}
+					} catch (error) { reject(error); }
 				};
-				reader.onerror = (error) => {
-					reject(error);
-				};
+				reader.onerror = (error) => { reject(error); };
 				reader.readAsDataURL(file);
 			});
 		}
 		imagebutton.textContent = "Attach Image";
 		imageinput.value = "";
 		imagepreview.src = "";
-		imagepreview.style.display = "none";
 	}
-	let input = ((imagedescription != "") ? "[ Image input: " + imagedescription + "] " : "") + transcription.value.trim();
+	if (audioinput.files.length != 0) {
+		const file = audioinput.files[0];
+		if (file) {
+			audiodescription = await new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onload = async (event) => {
+					const audioDataUrl = event.target.result;
+					try {
+						const response = await fetch(whisperendpoint, {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ audio: audioDataUrl, prompt: userprompt })
+						});
+						if (!response.ok) {
+							const errorText = await response.text();
+							reject(new Error(`${response.status} ${response.statusText} - ${errorText}`));
+							return;
+						}
+						const data = await response.json();
+						resolve(data.description);
+					} catch (error) { reject(error); }
+				};
+				reader.onerror = (error) => { reject(error); };
+				reader.readAsDataURL(file);
+			});
+		}
+		audiobutton.textContent = "Attach Audio";
+		audioinput.value = "";
+	}
+	if (imagedescription != "") inputprompt += "[Image: " + imagedescription + "] ";
+	if (audiodescription != "") inputprompt += "[Audio: " + audiodescription + "] ";
+	if (iotdescription != "") inputprompt += "[IoT: " + iotdescription + "] ";
+	if (notedescription != "") inputprompt += "[Note: " + notedescription + "] ";
+	
+	inputprompt += userprompt;
 	try {
-		const requestbody = { prompt: input, history: chathistory, modelconfig: modelconfig };
+		const requestbody = { prompt: inputprompt, history: chathistory, modelconfig: modelconfig };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(generativeaiendpoint, {
 			method: "POST", 
@@ -89,7 +147,7 @@ async function generateHistory() {
 		conversationhistory.scrollTop = conversationhistory.scrollHeight;
 	} catch (error) {
 		console.error("Error generating history:", error);
-		conversationhistory.value = "An error occurred durring generating history.";
+		responsetext.value = "An error occurred durring generating conversation history.";
 	}
 }
 
@@ -138,7 +196,6 @@ uploadhistory.addEventListener("change", (event) => {
 imageinput.addEventListener("change", () => {
 	if (imageinput.files.length > 0) {
 		imagebutton.textContent = "Detach Image";
-		imagepreview.style.display = "block";
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			imagepreview.src = e.target.result;
@@ -147,7 +204,6 @@ imageinput.addEventListener("change", () => {
 	} else {
 		imagebutton.textContent = "Attach Image";
 		imagepreview.src = "";
-		imagepreview.style.display = "none";
 	}
 });
 imagebutton.addEventListener("click", () => {
@@ -155,10 +211,18 @@ imagebutton.addEventListener("click", () => {
 		imagebutton.textContent = "Attach Image";
 		imageinput.value = "";
 		imagepreview.src = "";
-		imagepreview.style.display = "none";
-	} else {
-		imageinput.click();
-	}
+	} else imageinput.click();
+});
+
+audioinput.addEventListener("change", () => {
+	if (audioinput.files.length > 0) audiobutton.textContent = "Detach Audio";
+	else audiobutton.textContent = "Attach Audio";
+});
+audiobutton.addEventListener("click", () => {
+	if (audiobutton.textContent === "Detach Audio") {
+		audiobutton.textContent = "Attach Audio";
+		audioinput.value = "";
+	} else audioinput.click();
 });
 
 temperatureslider.addEventListener("change", updateModelConfig);

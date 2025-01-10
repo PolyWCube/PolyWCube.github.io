@@ -1,12 +1,12 @@
 const canvas = document.getElementById("background-canvas");
 const ctx = canvas.getContext('2d');
 
-const NODE_COUNT = 40;
+const NODE_COUNT = 100;
 const CONNECT_RANGE = 100;
 const INTERACTION_RANGE = 1000;
 const MAX_SPEED = 2;
 const REPULSION_FORCE = 100;
-const REPULSION_RANGE = 1000;
+const REPULSION_RANGE = 100;
 const ALIGNMENT_FORCE = 100;
 const OVERLAP_FACTOR = 2;
 const NODE_RADIUS_MIN = 5;
@@ -45,7 +45,7 @@ export function startVolumeCapture() {
 
 				let targetForce = 1 / (volume * 100000);
 
-				CENTER_ATTRACT_FORCE = isFinite(targetForce) ? targetForce : 0.00001;
+				CENTER_ATTRACT_FORCE = isFinite(targetForce) ? targetForce : 0.00005;
 				if (volumecapture) requestAnimationFrame(updateVolume);
 				else {
 					CENTER_ATTRACT_FORCE = MIN_CENTER_ATTRACT_FORCE;
@@ -93,6 +93,7 @@ class Node {
 		this.dx = (Math.random() - 0.5) * MAX_SPEED;
 		this.dy = (Math.random() - 0.5) * MAX_SPEED;
 		this.colorIndex = randomIntFromInterval(0, colors.length - 1);
+		this.mode = Math.random() < 0.3;
 	}
 
 	draw() {
@@ -121,24 +122,17 @@ class Node {
 		const dy = canvasCenterY - this.y;
 		const distance = Math.sqrt(dx * dx + dy * dy);
 		if (distance > 0) {
-			const force = CENTER_ATTRACT_FORCE * (distance * distance);
+			const force = ((this.mode) ? CENTER_ATTRACT_FORCE : 0.0000001) * (distance * distance);
 			this.dx += force * dx / distance;
 			this.dy += force * dy / distance;
 		}
 	}
 
-
 	handleWalls() {
 		const wallThickness = 5;
 
-		if (this.x + this.radius > canvas.width - wallThickness || this.x - this.radius < wallThickness) {
-			this.dx *= -0.8;
-			this.visualFeedback();
-		}
-		if (this.y + this.radius > canvas.height - wallThickness || this.y - this.radius < wallThickness) {
-			this.dy *= -0.8;
-			this.visualFeedback();
-		}
+		if (this.x + this.radius > canvas.width - wallThickness || this.x - this.radius < wallThickness) this.dx *= -0.8;
+		if (this.y + this.radius > canvas.height - wallThickness || this.y - this.radius < wallThickness) this.dy *= -0.8;
 	}
 
 
