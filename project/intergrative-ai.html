@@ -31,7 +31,7 @@
 				<br>
 					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly hidden></textarea>
 				</div>
-				<div style = "width: 80%; position: fixed; margin-top: -400px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
+				<div style = "width: 90%; position: fixed; margin-top: -480px; margin-left: 5%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
 					<h1> User Configuration </h1>
 						<h3> Speech Recognition (SR/STT) </h3>
 						<h3 style = "text-align: center;"> Language
@@ -92,16 +92,11 @@
 					<br>
 				</div>
 				<div style = "width: 80%; position: fixed; margin-top: -400px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "note">
-					<label for="noteText">Note:</label><br>
-					<textarea id="noteText" rows="4" cols="50"></textarea><br><br>
-
-					<label for="noteTime">Set Time (YYYY-MM-DD HH:mm):</label>
-					<input type="datetime-local" id="noteTime"><br><br>
-
-					<button id = "note-create-button">Create Note</button>
-
-					<h2>Your Notes</h2>
-					<div id="note-display"></div>
+					<h1>Your Notes</h1>
+					<br>
+					<textarea id="note-display" style = "height: 350px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "empty" readonly></textarea>
+					<br>
+					<br>
 				</div>
 			<br>
 			<br>

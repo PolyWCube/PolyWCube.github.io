@@ -1,9 +1,8 @@
+import { timeResponse } from "./intergrative-ai.js";
 let notes = [];
 
 const notepanel = document.getElementById("note");
 const notedisplay = document.getElementById("note-display");
-const noteevent = document.getElementById("noteText");
-const notetime = document.getElementById("noteTime");
 
 export function createNote(text, time) {
 	const note = {
@@ -16,38 +15,48 @@ export function createNote(text, time) {
 }
 
 function displayNotes() {
-	notedisplay.innerHTML = "";
-
+	let noteText = "";
 	notes.sort((a, b) => a.time - b.time);
 
 	notes.forEach(note => {
-		const noteDiv = document.createElement("div");
-		noteDiv.innerHTML = `<p><strong>Note:</strong> ${note.event}</p><p><strong>Time:</strong> ${note.time}</p>`;
-		notedisplay.appendChild(noteDiv);
+		const date = new Date(note.time);
+		const formattedDate = date.toLocaleDateString();
+		const formattedTime = date.toLocaleTimeString();
+
+		noteText += `${note.event}\nat ${formattedDate} ${formattedTime}\n`;
 	});
+
+	notedisplay.innerHTML = noteText;
 }
 
-function checkAlerts() {
+function checkNotes() {
 	const now = Date.now();
+	let noteText = "";
 
 	notes.forEach((note, index) => {
 		if (note.time <= now) {
+			const date = new Date(note.time);
+			const formattedDate = date.toLocaleDateString();
+			const formattedTime = date.toLocaleTimeString();
+			
+			noteText += `${note.event} at ${formattedDate} ${formattedTime}\n`;
 			notes.splice(index, 1);
 			displayNotes(notes);
 		}
 	});
+	
+	if (noteText == "") return;
+	noteText += "are/is passed."
+	
+	timeResponse(noteText);
 }
 
 displayNotes();
-setInterval(checkAlerts, 5000);
+setInterval(checkNotes, 5000);
 
 document.getElementById("note-button").addEventListener("click", () => {
 	if (notepanel.style.display === "none") notepanel.style.display = "block";
 	else notepanel.style.display = "none";
-});
-
-document.getElementById("note-create-button").addEventListener("click", () => {
-	createNote(noteevent.value, notetime.value);
 });
 
 export function createNotes(notes) {
@@ -57,7 +66,7 @@ export function createNotes(notes) {
 	let match;
 	let response = "Noted: ";
 
-    while ((match = regex.exec(notes)) !== null) {
+	while ((match = regex.exec(notes)) !== null) {
 		events.push({ event: match[1].trim(), time: match[2].trim() });
 	}
 

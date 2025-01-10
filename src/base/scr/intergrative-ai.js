@@ -34,7 +34,8 @@ async function generateResponse() {
 	let iotdescription = "";
 	let notedescription = "";
 	try {
-		const requestbody = { prompt: userprompt, history: chathistory };
+		const today = new Date();
+		const requestbody = { prompt: "Date: " + today + ". " + userprompt, history: chathistory };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(timeendpoint, {
 			method: "POST", 
@@ -135,6 +136,27 @@ async function generateResponse() {
 	}
 	if (autospeak.checked) speakMessage();
 	transcription.value = "";
+}
+
+export async function timeResponse(time) {
+	try {
+		const requestbody = { prompt: time, history: chathistory, modelconfig: modelconfig };
+		const jsbody = JSON.stringify(requestbody);
+		const response = await fetch(generativeaiendpoint, {
+			method: "POST", 
+			headers: { "Content-Type": "application/json" },
+			body: jsbody
+			});
+		if (!response.ok) return response.text().then(text => {throw new Error(`${response.status} ${response.statusText} - ${text}`)})
+		const data = await response.json();
+		responsetext.value = data.response;
+		chathistory = data.history;
+		generateHistory();
+	} catch (error) {
+		console.error("Error occur during fetch Generative AI API:", error);
+		responsetext.value = "An error occurred durring sending message to the chatbot.";
+	}
+	if (autospeak.checked) speakMessage();
 }
 
 async function generateHistory() {
