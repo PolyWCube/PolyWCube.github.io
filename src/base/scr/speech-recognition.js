@@ -1,7 +1,7 @@
 import { sendMessage } from "./intergrative-ai.js";
 import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
 
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+const recognition = new webkitSpeechRecognition();
 let record = false;
 
 recognition.continuous = true;

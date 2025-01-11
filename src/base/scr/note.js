@@ -37,7 +37,7 @@ function checkNotes() {
 		if (note.time <= now) {
 			const date = new Date(note.time);
 			const localTime = date.toLocaleString();
-			
+
 			noteText += `${note.event} at ${localTime}, `;
 			notes.splice(index, 1);
 			displayNotes(notes);
@@ -46,7 +46,7 @@ function checkNotes() {
 	
 	if (noteText == "[Note: ") return;
 	noteText += "*System generated* Remind the user]"
-	
+
 	timeResponse(noteText);
 }
 

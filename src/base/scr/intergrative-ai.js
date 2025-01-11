@@ -20,6 +20,7 @@ const imagebutton = document.getElementById('image-button');
 const imagepreview = document.getElementById("image-preview");
 const audioinput = document.getElementById('audio-input');
 const audiobutton = document.getElementById('audio-button');
+const notedisplay = document.getElementById("note-display");
 
 let chathistory = [];
 let modelconfig = {
@@ -35,7 +36,7 @@ async function generateResponse() {
 	let notedescription = "";
 	try {
 		const today = new Date();
-		const requestbody = { prompt: "Date: " + today.toLocaleString() + ". " + userprompt, history: chathistory };
+		const requestbody = { prompt: "[Date: " + today.toLocaleString() + "| Current Note " + notedisplay.value + "] " + userprompt, history: chathistory };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(timeendpoint, {
 			method: "POST", 
