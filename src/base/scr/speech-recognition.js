@@ -1,12 +1,24 @@
 import { sendMessage } from "./intergrative-ai.js";
 import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
 
-const recognition = new webkitSpeechRecognition();
+const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+const awakerecognition = new SpeechRecognition();
 let record = false;
+
+const SpeechGrammarList = window.speechGrammarList || window.webkitSpeechGrammarList;
+const speechRecognitionList = new SpeechGrammarList();
+const grammar = "#JSGF V1.0; grammar hotkeys; public <hotkey> = Hey Hellen | Hellen ;";
+speechRecognitionList.addFromString(grammar, 1);
+awakerecognition.grammars = speechRecognitionList;
 
 recognition.continuous = true;
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
+
+awakerecognition.continuous = false;
+awakerecognition.interimResults = false;
+awakerecognition.maxAlternatives = 1;
 
 let srlanguage = document.getElementById("sr-language-select");
 let transcription = document.getElementById("transcription");
@@ -18,6 +30,7 @@ export function listenMessage() {
 		recordbutton.textContent = "Start";
 		stopVolumeCapture();
 		recognition.stop();
+		awakerecognition.start();
 		if (autoresponse.checked) {
 			sendMessage();
 		}
@@ -26,6 +39,7 @@ export function listenMessage() {
 		recordbutton.textContent = "Stop";
 		startVolumeCapture();
 		recognition.start();
+		awakerecognition.stop();
 	}
 	record = !record;
 }
@@ -40,4 +54,16 @@ recordbutton.addEventListener("click", listenMessage);
 recognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
 	transcription.value += transcript;
+};
+
+awakerecognition.start();
+
+awakerecognition.onresult = function(event) {
+	const transcript = event.results[event.results.length - 1][0].transcript;
+	console.log(transcript);
+	if (transcript == "Allen" || transcript == "Alan") listenMessage();
+};
+
+awakerecognition.onend = () => {
+	if (!record) awakerecognition.start();
 };

@@ -45,13 +45,13 @@ function checkNotes() {
 	});
 	
 	if (noteText == "[Note: ") return;
-	noteText += "*System generated* Remind the user]"
+	noteText += "is/are passed, remind the user]"
 
 	timeResponse(noteText);
 }
 
 displayNotes();
-setInterval(checkNotes, 5000);
+setInterval(checkNotes, 1000);
 
 document.getElementById("note-button").addEventListener("click", () => {
 	if (notepanel.style.display === "none") notepanel.style.display = "block";
@@ -60,6 +60,7 @@ document.getElementById("note-button").addEventListener("click", () => {
 
 export function createNotes(notes) {
 	if (notes == "") return "";
+	notes = [];
 	const events = [];
 	const regex = /\[(.*?) \| (.*?)\]/g;
 	let match;
