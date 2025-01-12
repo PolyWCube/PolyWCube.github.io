@@ -1,16 +1,11 @@
 import { sendMessage } from "./intergrative-ai.js";
 import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
+import { speakMessage } from "./speech-synthesis.js";
 
 const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 const awakerecognition = new SpeechRecognition();
 let record = false;
-
-const SpeechGrammarList = window.speechGrammarList || window.webkitSpeechGrammarList;
-const speechRecognitionList = new SpeechGrammarList();
-const grammar = "#JSGF V1.0; grammar hotkeys; public <hotkey> = Hey Hellen | Hellen ;";
-speechRecognitionList.addFromString(grammar, 1);
-awakerecognition.grammars = speechRecognitionList;
 
 recognition.continuous = true;
 recognition.interimResults = false;
@@ -20,7 +15,7 @@ awakerecognition.continuous = false;
 awakerecognition.interimResults = false;
 awakerecognition.maxAlternatives = 1;
 
-let srlanguage = document.getElementById("sr-language-select");
+let srlanguage = document.getElementById("language-select");
 let transcription = document.getElementById("transcription");
 let recordbutton = document.getElementById("record-button");
 let autoresponse = document.getElementById("auto-response");
@@ -61,7 +56,10 @@ awakerecognition.start();
 awakerecognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
 	console.log(transcript);
-	if (transcript == "Allen" || transcript == "Alan") listenMessage();
+	if (transcript == "Hellen" || transcript == "Hey Hellen" || transcript == "hey Hellen") {
+		listenMessage();
+		speakMessage("I'm listenning");
+	}
 };
 
 awakerecognition.onend = () => {

@@ -6,7 +6,7 @@ speech.lang = "en-US";
 let voices = [];
 
 let autorestart = document.getElementById("auto-restart");
-let language = document.getElementById("language");
+let languageselect = document.getElementById("language-select");
 const voiceselect = document.getElementById("voice-select");
 const localvoice = document.getElementById("local-voice");
 
@@ -14,7 +14,7 @@ let speak = false;
 
 const MAX_CHUNK_LENGTH = 150;
 
-export function speakMessage() {
+export function speakMessage(inputmessage) {
 	if (speak) {
 		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
@@ -23,7 +23,7 @@ export function speakMessage() {
 	}
 
 	speechSynthesis.cancel();
-	const message = document.getElementById("response").value;
+	const message = (inputmessage == "") ? document.getElementById("response").value : inputmessage;
 	if (!message) return;
 
 	const speakChunk = (text) => {
@@ -123,3 +123,12 @@ localvoice.addEventListener("change", function() {
 })
 
 document.getElementById("speak-button").addEventListener("click", speakMessage);
+
+voiceselect.addEventListener("change", () => {
+	const selectedVoiceName = voiceselect.value;
+	speech.voice = voices.find(voice => voice.name === selectedVoiceName);
+});
+
+languageselect.onchange = () => {
+	speech.lang = this.value;
+};

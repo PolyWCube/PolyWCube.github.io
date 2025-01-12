@@ -33,28 +33,16 @@
 				</div>
 				<div style = "width: 90%; position: fixed; margin-top: -510px; margin-left: 5%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
 					<h1> User Configuration </h1>
-						<h3> Speech Recognition (SR/STT) </h3>
 						<h3 style = "text-align: center;"> Language
-							<select id="sr-language-select">
+							<select id="language-select">
 								<option value = "en-US"> English - US </option>
 								<option value = "en-UK"> English - UK </option>
 								<option value = "vi"> Vietnamese </option>
 							</select>
 						</h3>
-						<h3> Speech Synthesis (SS/TTS) </h3>
-						<h3 style = "text-align: center;"> Language
-							<select id="ss-language-select">
-								<option value = "en-US"> English - US </option>
-								<option value = "en-UK"> English - UK </option>
-								<option value = "vi"> Vietnamese </option>
-							</select>
-						</h3>
+						<h3> Speech Synthesis </h3>
 						<h3 style = "text-align: center;"> Voice
-							<select id="voice-select">
-								<option value = ""> BEST </option>
-								<option value = ""> Standard </option>
-								<option value = ""> General </option>
-							</select>
+							<select id="voice-select"></select>
 						</h3>
 						<h3 style = "display: flex; align-items: center; justify-content: center;"> Volume&nbsp;
 							<input type="range" min = "0" max = "1" value = "1" step = "0.01" id = "volume-slider" style = "width: 50%;"> </input>
@@ -87,9 +75,9 @@
 					<br>
 						<input id = "upload-history" type = "file" hidden></input>
 						<button type = "file" style = "font-size: 60%;"> 
-							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload History </label>
+							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload </label>
 						</button>
-						<button id = "download-history" style = "font-size: 60%;"> Download History </button>
+						<button id = "download-history" style = "font-size: 60%;"> Download </button>
 					<br>
 					<br>
 				</div>
