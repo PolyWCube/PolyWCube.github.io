@@ -15,6 +15,7 @@ let speak = false;
 const MAX_CHUNK_LENGTH = 150;
 
 export function speakMessage(message) {
+	if (typeof message !== "string" || message.trim() === "" || !message) { return; }
 	if (speak) {
 		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
@@ -23,10 +24,9 @@ export function speakMessage(message) {
 	}
 
 	speechSynthesis.cancel();
-	if (!message) return;
 
-	const speakChunk = (text) => {
-		speech.text = text;
+	const speakChunk = (message) => {
+		speech.text = message;
 		speechSynthesis.speak(speech);
 		return new Promise(resolve => {
 			speech.onend = resolve;
@@ -37,8 +37,8 @@ export function speakMessage(message) {
 		});
 	};
 
-	const chunkSentences = (text) => {
-		const sentences = text.split(/(?<=[.?!])\s+/);
+	const chunkSentences = (message) => {
+		const sentences = message.split(/(?<=[.?!])\s+/);
 		const chunks = [];
 		let currentChunk = "";
 
