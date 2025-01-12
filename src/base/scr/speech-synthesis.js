@@ -23,7 +23,7 @@ export function speakMessage(message) {
 	}
 
 	speechSynthesis.cancel();
-	if (!message || message.trim() === "") return;
+	if (!message) return;
 
 	const speakChunk = (text) => {
 		speech.text = text;
