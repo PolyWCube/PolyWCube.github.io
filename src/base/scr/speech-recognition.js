@@ -56,7 +56,7 @@ awakerecognition.start();
 awakerecognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
 	console.log(transcript);
-	if (transcript == "Hellen" || transcript == "Hey Hellen" || transcript == "hey Hellen") {
+	if (transcript == "Helen" || transcript == "Hey Helen" || transcript == "hey Helen" || transcript == "hey helen" || transcript == "helen") {
 		listenMessage();
 		speakMessage("I'm listenning");
 	}
