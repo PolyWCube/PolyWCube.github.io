@@ -121,7 +121,7 @@ localvoice.addEventListener("change", function() {
 	populateVoiceSelect();
 })
 
-document.getElementById("speak-button").addEventListener("click", speakMessage);
+document.getElementById("speak-button").addEventListener("click", speakMessage(document.getElementById("transcription").value));
 
 voiceselect.addEventListener("change", () => {
 	const selectedVoiceName = voiceselect.value;
