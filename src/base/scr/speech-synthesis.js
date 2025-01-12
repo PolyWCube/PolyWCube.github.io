@@ -14,7 +14,7 @@ let speak = false;
 
 const MAX_CHUNK_LENGTH = 150;
 
-export function speakMessage(inputmessage) {
+export function speakMessage(message) {
 	if (speak) {
 		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
@@ -23,8 +23,7 @@ export function speakMessage(inputmessage) {
 	}
 
 	speechSynthesis.cancel();
-	const message = (inputmessage == "") ? document.getElementById("response").value : inputmessage;
-	if (!message) return;
+	if (!message || message.trim() === "") return;
 
 	const speakChunk = (text) => {
 		speech.text = text;

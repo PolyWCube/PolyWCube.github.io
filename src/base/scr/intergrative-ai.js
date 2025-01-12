@@ -135,7 +135,7 @@ async function generateResponse() {
 		console.error("Error occur during fetch Generative AI API:", error);
 		responsetext.value = "An error occurred durring sending message to the chatbot.";
 	}
-	if (autospeak.checked) speakMessage();
+	if (autospeak.checked) speakMessage(transcription.value);
 	transcription.value = "";
 }
 
@@ -157,7 +157,7 @@ export async function timeResponse(time) {
 		console.error("Error occur during fetch Generative AI API:", error);
 		responsetext.value = "An error occurred durring sending message to the chatbot.";
 	}
-	if (autospeak.checked) speakMessage();
+	if (autospeak.checked) speakMessage(transcription.value);
 }
 
 async function generateHistory() {
