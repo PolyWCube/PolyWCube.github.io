@@ -9,13 +9,14 @@ let autorestart = document.getElementById("auto-restart");
 let languageselect = document.getElementById("language-select");
 const voiceselect = document.getElementById("voice-select");
 const localvoice = document.getElementById("local-voice");
+const responsetext = document.getElementById("response");
 
 let speak = false;
 
 const MAX_CHUNK_LENGTH = 150;
 
 export function speakMessage(message) {
-	if (typeof message !== "string" || message.trim() === "" || !message) { return; }
+	if (message.trim() === "" || !message) { return; }
 	if (speak) {
 		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
@@ -121,7 +122,7 @@ localvoice.addEventListener("change", function() {
 	populateVoiceSelect();
 })
 
-document.getElementById("speak-button").addEventListener("click", speakMessage(document.getElementById("transcription").value));
+document.getElementById("speak-button").addEventListener("click", speakMessage(responsetext.value));
 
 voiceselect.addEventListener("change", () => {
 	const selectedVoiceName = voiceselect.value;

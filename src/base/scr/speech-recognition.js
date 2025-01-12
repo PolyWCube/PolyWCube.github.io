@@ -45,13 +45,14 @@ export function clearMessage() {
 
 document.getElementById("clear-button").addEventListener("click", clearMessage);
 recordbutton.addEventListener("click", listenMessage);
+const recordButton = document.getElementById("record-button");
 
 recognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
 	transcription.value += transcript;
 };
 
-awakerecognition.start();
+navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { awakerecognition.start(); }).catch(err => console.error("Error with microphone", err));
 
 awakerecognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
