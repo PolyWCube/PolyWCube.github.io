@@ -18,7 +18,6 @@ const MAX_CHUNK_LENGTH = 150;
 export function speakMessage(message) {
 	if (message.trim() === "" || !message) { return; }
 	if (speak) {
-		document.getElementById("speak-button").textContent = "Speak";
 		speechSynthesis.cancel();
 		speak = false;
 		return;
@@ -57,7 +56,6 @@ export function speakMessage(message) {
 
 	(async () => {
 		speak = true;
-		document.getElementById("speak-button").textContent = "Stop";
 
 		const chunks = chunkSentences(message);
 		for (const chunk of chunks) {
@@ -70,7 +68,6 @@ export function speakMessage(message) {
 		}
 
 		speak = false;
-		document.getElementById("speak-button").textContent = "Speak";
 	})();
 }
 
@@ -82,7 +79,6 @@ speech.addEventListener("end", () => {
 		listenMessage();
 	}
 	speak = false;
-	document.getElementById("speak-button").textContent = "Speak";
 });
 
 function populateVoiceSelect() {
@@ -121,8 +117,6 @@ document.getElementById("speed-slider").addEventListener("change", function() {
 localvoice.addEventListener("change", function() {
 	populateVoiceSelect();
 })
-
-document.getElementById("speak-button").addEventListener("click", speakMessage(responsetext.value));
 
 voiceselect.addEventListener("change", () => {
 	const selectedVoiceName = voiceselect.value;

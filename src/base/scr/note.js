@@ -58,15 +58,15 @@ document.getElementById("note-button").addEventListener("click", () => {
 	else notepanel.style.display = "none";
 });
 
-export function createNotes(notes) {
-	if (notes == "") return "";
+export function createNotes(inputnotes) {
+	if (inputnotes == "") return "";
 	notes = [];
 	const events = [];
 	const regex = /\[(.*?) \| (.*?)\]/g;
 	let match;
 	let response = "";
 
-	while ((match = regex.exec(notes)) !== null) {
+	while ((match = regex.exec(inputnotes)) !== null) {
 		events.push({ event: match[1].trim(), time: match[2].trim() });
 	}
 
