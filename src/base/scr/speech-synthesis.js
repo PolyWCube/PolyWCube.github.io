@@ -10,13 +10,14 @@ let languageselect = document.getElementById("language-select");
 const voiceselect = document.getElementById("voice-select");
 const localvoice = document.getElementById("local-voice");
 const responsetext = document.getElementById("response");
+const speakbutton = document.getElementById("speak-button");
 
 let speak = false;
 
 const MAX_CHUNK_LENGTH = 150;
 
 export function speakMessage(message) {
-	if (message.trim() === "" || !message) { return; }
+	if (message.trim() === "" || !message) { speakbutton.textContent = "Speak"; return; }
 	if (speak) {
 		speechSynthesis.cancel();
 		speak = false;
@@ -66,8 +67,9 @@ export function speakMessage(message) {
 			clearMessage();
 			listenMessage();
 		}
-
 		speak = false;
+		
+		speakbutton.textContent = "Speak";
 	})();
 }
 
@@ -106,23 +108,27 @@ speechSynthesis.onvoiceschanged = populateVoiceSelect;
 
 populateVoiceSelect();
 
-document.getElementById("volume-slider").addEventListener("change", function() {
-	speech.volume = this.value;
-});
+document.getElementById("volume-slider").onchange = () => { speech.volume = this.value; };
 
-document.getElementById("speed-slider").addEventListener("change", function() {
-	speech.rate = this.value;
-});
+document.getElementById("speed-slider").onchange = () => { speech.rate = this.value; };
 
-localvoice.addEventListener("change", function() {
-	populateVoiceSelect();
-})
+localvoice.onchange = () => { populateVoiceSelect(); };
 
-voiceselect.addEventListener("change", () => {
+voiceselect.onchange = () => {
 	const selectedVoiceName = voiceselect.value;
 	speech.voice = voices.find(voice => voice.name === selectedVoiceName);
-});
+};
 
 languageselect.onchange = () => {
 	speech.lang = this.value;
+};
+
+speakbutton.onclick = () => {
+	if (speechSynthesis.speaking) {
+		speakbutton.textContent = "Speak";
+		speechSynthesis.cancel();
+		return;
+	}
+	speakbutton.textContent = "Stop";
+	speakMessage(responsetext.value);
 };

@@ -21,7 +21,6 @@ const imagepreview = document.getElementById("image-preview");
 const audioinput = document.getElementById('audio-input');
 const audiobutton = document.getElementById('audio-button');
 const notedisplay = document.getElementById("note-display");
-const speakbutton = document.getElementById("speak-button");
 
 let onresponse = false;
 
@@ -41,7 +40,7 @@ async function generateResponse() {
 	let notedescription = "";
 	try {
 		const today = new Date();
-		const requestbody = { prompt: "[Date: " + today.toLocaleString() + "| Current notes: " + notedisplay.value + "] " + userprompt, history: chathistory };
+		const requestbody = { prompt: "[Current time: " + today.toLocaleString() + "| Current notes: " + notedisplay.value + "] " + userprompt, history: chathistory };
 		const jsbody = JSON.stringify(requestbody);
 		const response = await fetch(timeendpoint, {
 			method: "POST", 
@@ -204,10 +203,6 @@ downloadhistory.addEventListener("click", () => {
 	document.body.removeChild(link);
 	URL.revokeObjectURL(url);
 });
-
-speakbutton.onclick = () => {
-	speakMessage(responsetext.value);
-};
 
 uploadhistory.addEventListener("change", (event) => {
 	const file = event.target.files[0];
