@@ -40,11 +40,12 @@ function checkNotes() {
 
 			noteText += `${note.event} at ${localTime}, `;
 			notes.splice(index, 1);
-			displayNotes(notes);
 		}
 	});
 	
-	if (noteText == "[Note: ") return;
+	displayNotes(notes);
+	
+	if (noteText === "[Note: ") return;
 	noteText += "is/are passed, remind the user]"
 
 	timeResponse(noteText);
