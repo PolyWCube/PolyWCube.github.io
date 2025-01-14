@@ -62,7 +62,6 @@ if (currentOS === 'iOS') {
 } else if (currentOS === 'Android') {
 	soundrecognition = false;
 }
-else {
 
 const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -83,22 +82,24 @@ let recordbutton = document.getElementById("record-button");
 let autoresponse = document.getElementById("auto-response");
 
 export function listenMessage() {
-	if (record) {
-		recordbutton.textContent = "Start";
-		stopVolumeCapture();
-		recognition.stop();
-		awakerecognition.start();
-		if (autoresponse.checked) {
-			sendMessage();
+	if (soundrecognition) {
+		if (record) {
+			recordbutton.textContent = "Start";
+			stopVolumeCapture();
+			recognition.stop();
+			awakerecognition.start();
+			if (autoresponse.checked) {
+				sendMessage();
+			}
+		} else {
+			recognition.lang = srlanguage.value;
+			recordbutton.textContent = "Stop";
+			startVolumeCapture();
+			recognition.start();
+			awakerecognition.stop();
 		}
-	} else {
-		recognition.lang = srlanguage.value;
-		recordbutton.textContent = "Stop";
-		startVolumeCapture();
-		recognition.start();
-		awakerecognition.stop();
+		record = !record;
 	}
-	record = !record;
 }
 
 export function clearMessage() {
@@ -114,7 +115,7 @@ recognition.onresult = function(event) {
 	transcription.value += transcript;
 };
 
-navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { awakerecognition.start(); }).catch(err => console.error("Error with microphone", err));
+navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { if (soundrecognition) awakerecognition.start(); }).catch(err => console.error("Error with microphone", err));
 
 awakerecognition.onresult = function(event) {
 	const transcript = event.results[event.results.length - 1][0].transcript;
@@ -126,6 +127,5 @@ awakerecognition.onresult = function(event) {
 };
 
 awakerecognition.onend = () => {
-	if (!record) awakerecognition.start();
+	if (!record && soundrecognition) awakerecognition.start();
 };
-}
