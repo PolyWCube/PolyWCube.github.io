@@ -1,6 +1,68 @@
 import { sendMessage } from "./intergrative-ai.js";
 import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
 import { speakMessage } from "./speech-synthesis.js";
+let soundrecognition = true;
+
+function getOS() {
+	const userAgent = navigator.userAgent;
+	const platform = navigator.platform;
+	const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
+	const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+	const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+	let os = null;
+
+	if (macosPlatforms.indexOf(platform) !== -1) {
+		os = 'MacOS';
+	} else if (iosPlatforms.indexOf(platform) !== -1) {
+		os = 'iOS';
+	} else if (windowsPlatforms.indexOf(platform) !== -1) {
+		os = 'Windows';
+	} else if (/Android/.test(userAgent)) {
+		os = 'Android';
+	} else if (!os && /Linux/.test(platform)) {
+		os = 'Linux';
+	}
+
+	if (os === 'MacOS' && /iPad/.test(userAgent)) {
+		os = 'iPadOS';
+	}
+	if (os === 'Windows') {
+		if (/Windows Phone/.test(userAgent)) {
+			os = 'Windows Phone';
+		} else if (/Windows NT 10.0/.test(userAgent)) {
+			os = 'Windows 10/11';
+		} else if (/Windows NT 6.3/.test(userAgent)) {
+			os = 'Windows 8.1';
+		} else if (/Windows NT 6.2/.test(userAgent)) {
+			os = 'Windows 8';
+		} else if (/Windows NT 6.1/.test(userAgent)) {
+			os = 'Windows 7';
+		}
+	}
+	if (os === 'iOS') {
+		const version = userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
+		if (version) {
+			os += ' ' + version[1];
+		}
+	}
+	if(os === "Android"){
+		const version = userAgent.match(/Android (\d+(\.\d+)+)/);
+		if(version){
+			os += ' ' + version[1]
+		}
+	}
+	return os;
+}
+
+const currentOS = getOS();
+console.log("Detected OS:", currentOS);
+
+if (currentOS === 'iOS') {
+	soundrecognition = false;
+} else if (currentOS === 'Android') {
+	soundrecognition = false;
+}
+else {
 
 const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -66,3 +128,4 @@ awakerecognition.onresult = function(event) {
 awakerecognition.onend = () => {
 	if (!record) awakerecognition.start();
 };
+}
