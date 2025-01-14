@@ -21,6 +21,9 @@ const imagepreview = document.getElementById("image-preview");
 const audioinput = document.getElementById('audio-input');
 const audiobutton = document.getElementById('audio-button');
 const notedisplay = document.getElementById("note-display");
+const speakbutton = document.getElementById("speak-button");
+
+let onresponse = false;
 
 let chathistory = [];
 let modelconfig = {
@@ -28,6 +31,8 @@ let modelconfig = {
 	modelname: "gemini-1.5-flash"
 };
 async function generateResponse() {
+	if (onresponse) return;
+	onresponse = true;
 	const userprompt = transcription.value.trim();
 	let inputprompt = "";
 	let imagedescription = "";
@@ -137,9 +142,11 @@ async function generateResponse() {
 	}
 	if (autospeak.checked) speakMessage(responsetext.value);
 	transcription.value = "";
+	onresponse = false;
 }
 
 export async function timeResponse(time) {
+	onresponse = true;
 	try {
 		const requestbody = { prompt: time, history: chathistory, modelconfig: modelconfig };
 		const jsbody = JSON.stringify(requestbody);
@@ -158,6 +165,7 @@ export async function timeResponse(time) {
 		responsetext.value = "An error occurred durring sending message to the chatbot.";
 	}
 	if (autospeak.checked) speakMessage(responsetext.value);
+	onresponse = false;
 }
 
 async function generateHistory() {
@@ -196,6 +204,10 @@ downloadhistory.addEventListener("click", () => {
 	document.body.removeChild(link);
 	URL.revokeObjectURL(url);
 });
+
+speakbutton.onclick = () => {
+	speakMessage(responsetext.value);
+};
 
 uploadhistory.addEventListener("change", (event) => {
 	const file = event.target.files[0];
