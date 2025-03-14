@@ -1,0 +1,12 @@
+@font-face {
+	font-family: "ORCAExt";
+	src : url(".source/font/OCR_A_Extended.ttf") format("truetype");
+}
+* {
+	margin : 0;
+	padding : 0;
+	font-family : "ORCAExt";
+	font-size : 20px;
+	transition : 0.2s linear;
+}
+body {}
