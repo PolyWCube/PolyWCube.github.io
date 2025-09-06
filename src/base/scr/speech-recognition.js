@@ -1,5 +1,4 @@
 import { sendMessage } from "./intergrative-ai.js";
-import { startVolumeCapture, stopVolumeCapture } from "./background/node-disolve.js";
 import { speakMessage } from "./speech-synthesis.js";
 let soundrecognition = true;
 
@@ -85,7 +84,6 @@ export function listenMessage() {
 	if (soundrecognition) {
 		if (record) {
 			recordbutton.textContent = "Start";
-			stopVolumeCapture();
 			recognition.stop();
 			awakerecognition.start();
 			if (autoresponse.checked) {
@@ -94,7 +92,6 @@ export function listenMessage() {
 		} else {
 			recognition.lang = srlanguage.value;
 			recordbutton.textContent = "Stop";
-			startVolumeCapture();
 			recognition.start();
 			awakerecognition.stop();
 		}
