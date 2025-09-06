@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang = "en">
+	<head>
+		<!-- Meta -->
+		<meta charset = "UTF-8">
+		<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+		<meta name = "description" content = "Intergrative AI - Speech Recognition / Generation (SR/G), Reponse Generator, Internet Of Everything (IOE)">
+		
+		<!-- Style -->
+		<link rel = "stylesheet" type = "text/css" href = "../css/style.css">
+		<link rel = "icon" href = "../src/base/img/logo/Logo.png">
+		
+		<!--Script-->
+		</script>
+		<title>PolyWCube</title>
+		
+	</head>
+	
+	<body>
+		<div class = "main">
+			<section class = "content">
+				<div>
+				<h1> Integrative AI </h1>
+				<br style = "width: 80%; position: absolute;">
+					<h2> Chatbot Prompt </h2>
+					<br>
+					<textarea id = "response" style = "height: 350px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "The output message goes here"></textarea>
+				<br>
+					<textarea id = "converstation-history" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; height: 250px" placeholder = "Chat history" readonly hidden></textarea>
+				</div>
+				<div style = "width: 90%; position: fixed; margin-top: -510px; margin-left: 5%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "configuration">
+					<h1> User Configuration </h1>
+						<h3 style = "text-align: center;"> Language
+							<select id="language-select">
+								<option value = "en-US"> English - US </option>
+								<option value = "en-UK"> English - UK </option>
+								<option value = "vi"> Vietnamese </option>
+							</select>
+						</h3>
+						<h3> Speech Synthesis </h3>
+						<h3 style = "text-align: center;"> Voice
+							<select id="voice-select"></select>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"> Volume&nbsp;
+							<input type="range" min = "0" max = "1" value = "1" step = "0.01" id = "volume-slider" style = "width: 50%;"> </input>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"> Speed &nbsp;
+							<input type="range" min = "0.5" max = "2" value = "0.8" step = "0.02" id = "speed-slider" style = "width: 50%;"> </input>
+						</h3>
+						<input type = "checkbox" class = "toggle" id = "local-voice" hidden checked></input>
+						<label title = "Local voice brings more stable model supported in the browser." for = "local-voice"> Enable Local Voice </label>
+					<br>
+						<h3> Natural Language Processing (NLP/Gemini) </h3>
+						<h3 style = "text-align: center;"> Model
+							<select id="model-select">
+								<option value = "gemini-1.5-pro"> Gemini 1.5 Pro </option>
+								<option value = "gemini-1.5-flash" selected> Gemini 1.5 Flash **RECOMMENDED** </option>
+								<option value = "gemini-1.5-flash-8b"> Gemini 1.5 Flash 8B </option>
+							</select>
+						</h3>
+						<h3 style = "display: flex; align-items: center; justify-content: center;"title = "Chatbot's creativity and randomness."> Temperature&nbsp;
+							<input type="range" min = "0" max = "2" value = "1" step = "0.01" id = "temperature-slider" style = "width: 50%;"> </input>
+						</h3>
+						<input type = "checkbox" class = "toggle" id = "auto-response" hidden></input>
+						<label title = "Auto send the promt to chatbot after 'STOP RECORDING'." for = "auto-response"> Enable Auto Response </label>
+					<br>
+						<input type = "checkbox" class = "toggle" id = "auto-speak" hidden checked></input>
+						<label title = "Automate the process of speaking after generating response." for = "auto-speak"> Enable Auto Speak </label>
+					<br>
+						<input type = "checkbox" class = "toggle" id = "auto-restart" hidden></input>
+						<label title = "Automate the process of restart conversation again by clear and recorded the next user promt after finish the speaking." for = "auto-restart"> Enable Auto Restart </label>
+					<br>
+						<input id = "upload-history" type = "file" hidden></input>
+						<button type = "file" style = "font-size: 60%;"> 
+							<label for = "upload-history" style = "font-size: 100%; color: #000;"> Upload </label>
+						</button>
+						<button id = "download-history" style = "font-size: 60%;"> Download </button>
+					<br>
+					<br>
+				</div>
+				<div style = "width: 80%; position: fixed; margin-top: -450px; margin-left: 10%; background: rgba(0, 0, 0, 0.8); border: 1px solid #fff; display: none;" id = "note">
+					<h1>Your Notes</h1>
+					<br>
+					<textarea id="note-display" style = "height: 300px; resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff;" placeholder = "Empty" readonly></textarea>
+					<br>
+					<br>
+				</div>
+			<br>
+			<br>
+			<br>
+			</section>
+			<section class = "footer" style = "width: 100%; background-color: transparent; padding-bottom: 80px; height: 20%; display: flex; align-items: baseline;">
+				<section style = "margin-left: 2%; height: 100%; width: 100%;">
+					<button id = "record-button" style = "font-size: 60%;"> Start </button>
+					<button id = "clear-button" style = "font-size: 60%;"> Clear </button>
+					<button id = "speak-button" style = "font-size: 60%;"> Speak </button>
+				<br>
+					<button id = "generate-button" style = "font-size: 60%;"> Send </button>
+					<button id = "configuration-button" style = "font-size: 60%;"> Config </button>
+					<button id = "note-button" style = "font-size: 60%;"> Note </button>
+					<textarea id = "transcription" style = "resize: none; background-color: rgba(0, 0, 0, 0.5); color: #fff; width: 100%; height: 100px; font-size: 50%;" placeholder = "Input your prompt here" input = "this.scrollTop = this.scrollHeight;"></textarea>
+				</section>
+				<section style = "margin-right: 2%; margin-left: 2%; flex-shrink: 0; padding-top: 5%; height: 100%;">
+					<input type= "file" id = "audio-input" hidden> </input>
+					<button id = "audio-button" type = "file" accept="audio/*" style = "font-size: 60%;"> Attach Audio </button>
+				<br>
+					<input type= "file" id = "image-input" hidden> </input>
+					<button id = "image-button" type = "file" accept="image/*" style = "font-size: 60%;"> Attach Image </button>
+				<br>
+					<image id = "image-preview" style = "width: 132px; height: 100px; border: 1px solid #fff;"> </image>
+				</section>
+			</section>
+		</div>
+		<script type = "module" src = "../src/base/scr/intergrative-ai.js"> </script>
+		<script type = "module" src = "../src/base/scr/speech-synthesis.js"> </script>
+		<script type = "module" src = "../src/base/scr/speech-recognition.js"> </script>
+		<script type = "module" src = "../src/base/scr/note.js"> </script>
+		
+		<script src = "../src/base/scr/toggle.js"> </script>
+	</body>
+</html>

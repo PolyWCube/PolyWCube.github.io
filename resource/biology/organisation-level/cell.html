@@ -1,0 +1,73 @@
+<!DOCTYLE html>
+<html lang = "en">
+	<head>
+		<!-- Meta -->
+		<meta charset = "UTF-8">
+		<meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+		<meta name = "description" content = "Biology - Cell">
+		
+		<!-- Style -->
+		<link rel = "stylesheet" type = "text/css" href = "../../../css/style.css">
+		
+		<!--Script-->
+		<script src = "../../../src/base/scr/quote-generator.js"> </script>
+		<script type = "module" src = "../../../src/base/scr/database/parser.js"> </script>
+		<script type = "module">
+			import { LOAD_identifier } from "../../../src/base/scr/database/parser.js";
+			let identifier = await LOAD_identifier("Cell");
+			document.getElementById("definition").innerHTML = identifier.Definition;
+			document.getElementById("example").innerHTML = identifier.Example;
+		</script>
+		
+		<title>PolyWCube</title>
+		
+	</head>
+	
+	<body>
+		<div class = "main">
+			<section class = "icon">
+				<h2 class = "logo"> < C U S T O M > </h2>
+			</section>
+			<section class = "nav_bar">
+				<div class = "menu">
+					<ul>
+						<li> <a href = "../../../project.html"> PROJECT </a> </li>
+						<li> <a href = "../../../resource.html"> RESOURCE </a> </li>
+						<li> <a href = "../../../index.html"> HOME </a> </li>
+						<li> <a href = "../../../contact.html"> CONTACT </a> </li>
+					<ul>
+				</div>
+				<div class = "directory">
+					<p> <a href = "../../../resource.html">Resource</a> > <a href = "../../biology.html">Biology</a> > <a href = "../organisation-level.html"> Organisation Level </a> > <a>Cell</a> </p>
+				</div>
+			</section>
+			<section class = "content">
+				<h1> Cell </h1>
+					<p id = "definition"> </p>
+					<p id = "example"> </p>
+					<p> Most of cell are microscopic </p>
+					<h2> Basic Structure </h2>
+						<p> All cells have some certain shared basic structure as every cell consists of cytoplasm containing genetic structure and organelle enclosed within a membrane. These are the most fundamental structural that create functional units suitable for life to exist and thrive. </p>
+						<h3> Cell Membrane (Cytoplasmic Membrane) </h3>
+							<p> The biological membrane separates and protects the interior of a cell from the extracellular environment composed of notably lipids and proteins, which include the two layers of phospholipid (lipid bilayer) with cholesterols interspersed between them, the <a title = "The structure formed when oligosaccharide chain attached to amino acid side-chains in the glycosylation">glycoprotein</a>, glycosaccharide and functional protein.</p>
+						<h3> Cytoplasm (Cytosol) </h3>
+							<p> The semifluid substance where all the <a>vital processes</a> occur and <a href = "../organisation-level.html#organelle">subcellular component</a> suspended. </p>
+					<p> They can be divided into two distinct types: </p>
+					<ul>
+						<li> <a> Prokaryote Cell </a>
+							<p> All the  </p>
+						</li>
+						<li> <a id = "eukaryote-cell"> Eukaryote Cell </a>
+							<p> </p>
+						</li>
+					</ul>
+				<br>
+				<br>
+				<br>
+			</section>
+			<section class = "footer">
+				<p id = "quote"> quote </p>
+			</section>
+		</div>
+	</body>
+</html>
