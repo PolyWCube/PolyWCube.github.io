@@ -136,3 +136,51 @@ body {
 .blog-tags span { font-size: 0.75rem; background: rgba(255, 255, 255, 0.05); color: #ffffff; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.05); }
 .blog-read-link { display: inline-block; font-size: 0.85rem; font-weight: 500; color: #ffffff; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.3); padding-bottom: 2px; }
 .blog-read-link:hover { border-color: #ffffff; }
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Giảm font chữ tổng thể */
+    }
+
+    /* Thu nhỏ kích thước Top & Bottom Bar để không chiếm không gian */
+    .floating-bar {
+        width: calc(100% - 20px);
+        padding: 10px 16px;
+        border-radius: 8px;
+    }
+    
+    .top-bar { top: 10px; }
+    .bottom-bar { bottom: 10px; }
+    
+    .logo { font-size: 0.95rem; }
+    .status-text, .footer-left, .social-links a { font-size: 0.75rem; }
+    .social-links a { margin-left: 10px; }
+
+    /* THU NHỎ THẺ ĐỂ KHÔNG BỊ CHỒNG LẤP GÂY LAG */
+    .floating-card {
+        width: 250px !important; /* Màn hình nhỏ thì tất cả thẻ đưa về 250px */
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .floating-card.card-big { width: 250px !important; }
+    .floating-card.card-small { width: 200px !important; }
+
+    .floating-card h2, .floating-card.card-big h2 { font-size: 1.15rem; margin-bottom: 8px; }
+    .floating-card h3, .floating-card.card-small h3 { font-size: 1.05rem; margin-bottom: 6px; }
+    .floating-card p { font-size: 0.8rem; line-height: 1.4; margin-bottom: 12px; }
+    
+    .badge { font-size: 0.6rem; margin-bottom: 10px; }
+    .skills span { font-size: 0.65rem; padding: 2px 6px; margin-right: 4px; }
+    
+    /* Tối ưu riêng cho danh sách cuộn trang Blog trên di động */
+    .blog-scroll-container {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+    .blog-list {
+        grid-template-columns: 1fr; /* Ép về 1 cột dọc thẳng hàng */
+        gap: 20px;
+    }
+    .blog-item { padding: 20px; }
+    .blog-title { font-size: 1.25rem; }
+}

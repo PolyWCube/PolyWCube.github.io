@@ -50,10 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				state.isDragging = true;
 				highestZ++;
 				card.style.zIndex = highestZ;
-				const clientX = e.clientX || (e.touches && e.touches.clientX);
-				const clientY = e.clientY || (e.touches && e.touches.clientY);
-				state.offsetX = clientX - state.x;
-				state.offsetY = clientY - state.y;
+				const point = e.touches ? e.touches[0] : e;
+				state.offsetX = point.clientX - state.x;
+				state.offsetY = point.clientY - state.y;
 				state.vx = 0;
 				state.vy = 0;
 			};
@@ -67,8 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 		window.addEventListener('touchmove', (e) => {
 			if (!draggedCard || !e.touches.length) return;
-			draggedCard.x = e.touches.clientX - draggedCard.offsetX;
-			draggedCard.y = e.touches.clientY - draggedCard.offsetY;
+			const point = e.touches[0];
+			draggedCard.x = point.clientX - draggedCard.offsetX;
+			draggedCard.y = point.clientY - draggedCard.offsetY;
 		}, { passive: false });
 		const stopDrag = () => {
 			if (draggedCard) {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const ctx = canvas.getContext('2d');
 		let particles = [];
 		const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 10000);
-		const connectionDistance = 110; 
+		const connectionDistance = 150;
 		let mouse = { x: null, y: null, radius: 140 };
 		window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
 		window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				this.y = Math.random() * canvas.height;
 				this.baseX = this.x;
 				this.baseY = this.y;
-				this.size = Math.random() * 1.5 + 1;
+				this.size = Math.random() * 10 + 5;
 				this.vx = (Math.random() - 0.5) * 0.3;
 				this.vy = (Math.random() - 0.5) * 0.3;
 			}
