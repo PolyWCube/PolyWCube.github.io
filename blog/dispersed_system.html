@@ -73,29 +73,29 @@
 </head>
 <body>
 	<header>
-		<h1>Disperse Systems</h1>
-		<p>"Colloid chemistry is the science of neglected dimensions." - Wolfgang Ostwald</p>
+		<h1>Dispersed Systems</h1>
+		<p>"Colloid chemistry is the science of neglected dimensions." - Wolfgang Ostwald.</p>
 	</header>
 	<div class="section">
-		<h2>Why it matters?</h2>
+		<h2>Why does it matter?</h2>
 		<p>A few days ago, during my first physical chemistry and pharmaceutics class, we covered a fundamental concept, which I also personally found interesting: disperse systems.</p>
 		<p>While it sounds purely academic, it actually explains how many everyday products and medications function. Scientifically, a disperse system consists of one or multiple substances (the dispersed phase) distributed throughout another (the dispersion medium). Studying these systems is essentially about understanding how to make incompatible materials—like oil and water—mix and remain stable over time.</p>
 		<p>Disperse systems are not unique; they are a fundamental way nature and industry organize matter. On a broader scale, these systems dictate the properties of the world around us. In environmental science, atmospheric fog, smoke, and industrial wastewater are all dynamic dispersions that require precise control for filtration and purification. In consumer manufacturing, the stability of products like commercial paints, structural concrete, and everyday food emulsions (such as milk or mayonnaise) relies entirely on the physics of particle distribution.</p>
 		<p>In the field of pharmaceutics, however, managing these systems becomes a matter of biological precision.</p>
-		<p>Discovering a powerful drug molecule is only one of many steps. The real challenge is delivery. Because many modern medical compounds do not naturally dissolve in water, the body cannot absorb them in their raw form. Formulating these drugs into micro or nano-sized disperse systems bypasses this hurdle, drastically increasing drug absorption and controlling how fast a medication is released into the human body.</p>
+		<p>Discovering a powerful drug molecule is only one of many steps. The real challenge is delivery. Because many modern medical compounds do not naturally dissolve in water, the body cannot absorb them in their raw form. Formulating these drugs into micro- or nano-sized dispersed systems bypasses this hurdle, drastically increasing drug absorption and controlling how fast a medication is released into the human body.</p>
 		<h2>What will be covered?</h2>
-		<p>To understand how these systems function in medicine, we have to look at the physics that governs them. This post will break down the essential concepts and also what I personally discover in the process of learning it by answering 3 fundamental questions:</p>
+		<p>To understand how these systems function in medicine, we have to look at the physics that governs them. This post will break down the essential concepts and also what I personally discovered in the process of learning it by answering 3 fundamental questions:</p>
 		<p>What is the disperse system?</p>
 		<p>How does it work?</p>
 		<p>Why does it work like that?</p>
-		<p>And some interactable simulation of what happening for better understanding of it.</p>
+		<p>And some interactive simulation of what is happening for better understanding of it.</p>
 	</div>
 	<div class="section">
 		<div class="meta">
 			<h2>Concept and classification</h2>
 		</div>
-		<p>At its core, a disperse system is a mixture where dispersed phase is mixed inside a dispersion medium. Unlike a chemical reaction, these substances do not bond together permanently. They remain separate but physically coexist.</p>
-		<p>The dispersed phase are consists of substances that is broken down into tiny particles. It consists of isolated, separated particles or droplets distributed throughout the mixture. The dispersion medium, on the other hand, is the continuous substance that surrounds these particles. It forms an uninterrupted, continuous pathway that entirely surrounds the individual dispersed substance.</p>
+		<p>At its core, a disperse system is a mixture where the dispersed phase is mixed inside a dispersion medium. Unlike a chemical reaction, these substances do not bond together permanently. They remain separate but physically coexist.</p>
+		<p>The dispersed phase consists of substances that are broken down into tiny particles. It consists of isolated, separated particles or droplets distributed throughout the mixture. The dispersion medium, on the other hand, is the continuous substance that surrounds these particles. It forms an uninterrupted, continuous pathway that entirely surrounds the individual dispersed substance, which is also named the dispersed interface.</p>
 		<p>However, the relative quantity and physical continuity of the substances determine which component becomes the dispersed phase and which becomes the dispersion medium.</p>
 		<h2>Based on particle size</h2>
 		<p>In pharmaceutical science, the size of the dispersed particles is the single most critical factor. It dictates how a drug behaves visually, how stable it remains on the shelf, and how the human body absorbs it.</p>
@@ -106,9 +106,9 @@
 			<p class="desc">True solution. Completely dissolved and homogeneous.</p>
 		</div>
 		<canvas id="sim-molecular" class="sim-box"></canvas>
-		<p>The dispersed phase are so small, the intermolecular forces between the solute and the solvent are perfectly balanced. They form a true, permanent solution that will never separate. Although classified as a dispersion by particle size, a molecular dispersion is physically a homogeneous true solution where the components completely merge into a single phase.</p>
-		<p>Some of the properties of a molecular dispersed system are: Clear and transparent; Particles (atoms, ions, or small molecules) are invisible even under an electron microscope; Passes through semipermeable membranes and filter paper; Highly stable; never settles.</p>
-		<p>They commonly found everywhere in our life. For example, we have saline solution (0.9% NaCl) used in eyes care, desxtrose infusions, clear medical syrups, even the air around use is still consider a molecular dispersed system.</p>
+		<p>The dispersed phase are so small that the intermolecular forces between the solute and the solvent are perfectly balanced. They form a true, permanent solution that will never separate. Although classified as a dispersion by particle size, a molecular dispersion is physically a homogeneous true solution where the components completely merge into a single phase.</p>
+		<p>Some of the properties of a molecularly dispersed system are: clear and transparent; particles (atoms, ions, or small molecules) are invisible even under an electron microscope; passes through semipermeable membranes and filter paper; Highly stable; never settles.</p>
+		<p>They are commonly found everywhere in our lifes. For example, we have saline solution (0.9% NaCl) used in eye care, dextrose infusions, clear medical syrups; even the air around us is still considered a molecularly dispersed system.</p>
 	</div>
 	<div class="section">
 		<div class="meta">
@@ -116,11 +116,11 @@
 			<p class="desc">The middle ground. Remain permanently suspended.</p>
 		</div>
 		<canvas id="sim-colloidal" class="sim-box"></canvas>
-		<p>The dispersed phase are more complex with different mechanism of creating a colloidal system. One way is they form small, distinct clusters (aggregates). However, instead of sinking, they stay floating, scattered dynamically across the middle ground of the medium.</p>
-		<p>Some of the properties of a colloidal dispersed system are: Usually clear to hazy; Exhibits the <b>Tyndall Effect</b>; Driven by <b>Brownian motion</b>; particles resist gravity and rarely settle; Cannot pass through semipermeable membranes but passes through regular filter paper.</p>
-		<p>They are unique and the most fancinating dispersed system among 3 due to the fact that they have many different properties. For example, they used in targeted drug delivery vehicles (e.g, liposomes, polymeric nanoparticles, micelles), or the fact that our blood plasma is a colloidal disersed system of blood components, and hydrogels (like gelatin or carbomer gels).</p>
-		<p>About the clarity of the solution, unlike true solution, these particles are now large enough to act as tiny mirrors. When light hits them, they scatter the light waves in all directions.</p>
-		<p>Another thing is that the suspension state of the dispersed phase (colloidal stability) if mostly affected by the force from Brownian motion of the dispersed medium. This acts like an upward force that fights gravity and keep the phase floating. Additionally, beside that force, the dispersed phase also affected by the Van der Waals forces and electrostatic repulsion.<p>
+		<p>The dispersed phase is more complex, with different mechanisms of creating a colloidal system. One way is that they form small, distinct clusters (aggregates). However, instead of sinking, they stay floating, scattered dynamically across the middle ground of the medium.</p>
+		<p>Some of the properties of a colloidal dispersed system are: usually clear to hazy; exhibits the <b>Tyndall effect</b>; driven by <b>Brownian motion</b>; particles resist gravity and rarely settle; cannot pass through semipermeable membranes but pass through regular filter paper.</p>
+		<p>They are unique and the most fascinating dispersed system among 3 due to the fact that they have many different properties. For example, they are used in targeted drug delivery vehicles (e.g., liposomes, polymeric nanoparticles, micelles), or the fact that our blood plasma is a colloidal dispersed system of blood components, as are hydrogels (like gelatin or carbomer gels).</p>
+		<p>About the clarity of the solution, unlike a true solution, these particles are now large enough to act as tiny mirrors. When light hits them, they scatter the light waves in all directions.</p>
+		<p>Another thing is that the suspension state of the dispersed phase (colloidal stability) is mostly affected by the force from Brownian motion of the dispersed medium. This acts like an upward force that fights gravity and keeps the phase floating. Additionally, besides that force, the dispersed phase is also affected by the Van der Waals forces and electrostatic repulsion.<p>
 	</div>
 	<div class="section">
 		<div class="meta">
@@ -129,7 +129,7 @@
 		</div>
 		<canvas id="sim-coarse" class="sim-box"></canvas>
 		<p>This is the theoretical cutoff line where gravity starts to drastically overpower thermal movement (Brownian motion).</p>
-		<p>Some of the porperties of a coarse dispersed system are: Turbid, milky, or opaque; Particles are visible under a standard light microscope; Does not pass through regular filter paper; Thermodynamically unstable; particles will settle (sediment) or float (cream) over time without stabilizing agents.</p>
+		<p>Some of the properties of a coarse dispersed system are: turbid, milky, or opaque; particles are visible under a standard light microscope; does not pass through regular filter paper; thermodynamically unstable; particles will settle (sediment) or float (cream) over time without stabilizing agents.</p>
 		<p>They are the other end of the spectrum, mostly used in pharmaceutical suspensions (e.g., liquid antacids like Mylanta, or reconstituted oral antibiotics), emulsions (e.g., topical creams, propofol injectable emulsions).</p>
 	</div>
 	<div class="sectiom">
@@ -144,7 +144,7 @@
 	</div>
 	<div class="section">
 		<h2>Based on Physical State</h2>
-		<p>Continued to size is only part of the story. The true identity of each system is dictated by how the medium restricts the particles and how the particles interact at their boundaries. One of the way that dirrectly and greatly affect the interfacial forces between each particles is the physical state that these phasses and medium, which is </p>
+		<p>Continued to size is only part of the story. The true identity of each system is dictated by how the medium restricts the particles and how the particles interact at their boundaries. One of the way that directly and greatly affect the interfacial forces between each particle is the physical state of these phases and the medium, which greatly defines the arrangement, and therefore the interfacial forces.</p>
 	</div>
 	<div class"section">
 		<div class="meta">
@@ -152,10 +152,10 @@
 			<p class="desc">Liquid/solid phase in gas medium</p>
 		</div>
 		<canvas id="sim-liquid" class="sim-box"></canvas>
-		<p>The liquid droplets are highly dynamic, because the gas molecules are spaced far apart, the droplets move at high speeds, driven entirely by air currents (convection) and external forces.</p>
+		<p>The liquid droplets are highly dynamic because the gas molecules are spaced far apart; the droplets move at high speeds, driven entirely by air currents (convection) and external forces.</p>
 		<p>Droplets suffer from high surface tension and are prone to evaporation. Over time, smaller droplets tend to evaporate and condense onto larger ones (a process called <b>Ostwald Ripening</b>), or simply vanish into the air.</p>
 		<canvas id="sim-aerosol" class="sim-box"></canvas>
-		<p>Unlike liquid droplets, these solid particles cannot evaporate. They remain in the air for long periods if their aerodynamic diameter is small enough to balance out gravity. They are highly susceptible to electrostatic charges—rubbing against the air can cause them to repel or attract each other heavily.</p>
+		<p>Unlike liquid droplets, these solid particles cannot evaporate. They remain in the air for long periods if their aerodynamic diameter is small enough to balance out gravity. They are highly susceptible to electrostatic charges—rubbing against the air can cause them to repel or attract each other strongly.</p>
 		<p>If these particles collide and clump (aggregate), they form dry, brittle clusters that instantly drop out of the air due to increased weight.</p>
 	</div>
 	<div class="section">
@@ -191,18 +191,18 @@
 		<p>The particles are heavy and constantly pulled downward by gravity (sedimentation). If the particles are small enough (colloidal range), Brownian motion acts as a safety net, constantly kicking them upward to keep them suspended.</p>
 		<p>The surface properties (Zeta potential) are critical here. If the particles carry a strong similar electrical charge, they repel each other and stay separated (deflocculated). If the charges are neutralized, they fall into loose, fluffy networks (flocculation) which are easy to shake and redistribute.</p>
 		<canvas id="sim-solidsuspension" class="sim-box"></canvas>
-		<p>Because there is no motion occur as both the phase and medium are solid, particle cannot sedimented by gravity but instead locked in place.</p>
-		<p>This is the crown jewel of modern drug formulation, known as Amorphous Solid Dispersions (ASDs). Many groundbreaking medical molecules are highly crystalline and completely refuse to dissolve in water. Pharmacists dissolve the drug and a polymer together, then instantly freeze or dry them into a solid sheet. The raw, insoluble drug particles are trapped in an unstable "amorphous" state. Because they are locked in a solid structure, they cannot move to regroup into their original crystal form, keeping the drug ready to dissolve instantly the moment it reachs stomach acid.</p>
+		<p>Because no motion occurs as both the phase and medium are solid, particles cannot sediment by gravity but are instead locked in place.</p>
+		<p>This is the crown jewel of modern drug formulation, known as Amorphous Solid Dispersions (ASDs). Many groundbreaking medical molecules are highly crystalline and completely refuse to dissolve in water. Pharmacists dissolve the drug and a polymer together, then instantly freeze or dry them into a solid sheet. The raw, insoluble drug particles are trapped in an unstable "amorphous" state. Because they are locked in a solid structure, they cannot move to regroup into their original crystal form, keeping the drug ready to dissolve the moment it reaches stomach acid.</p>
 	</div>
 	<div class="section">
-		<p>After breaking down these 8 configurations, you might wonder: Why is gas phase in gas medium completely missing?</p>
+		<p>After breaking down these 8 configurations, you might wonder: Why is the gas phase in gas medium completely missing?</p>
 		<p>It does not depend blindly on the states of matter, but on whether the substances choose to dissolve or separate at the molecular level:</p>
 		<p>Gas molecules possess high kinetic energy and instantly intermingle at an individual molecular level. They form a single, uniform phase with zero interfacial tension. Therefore, the gas-in-gas mixtures are true solutions (homogeneous), not disperse systems.</p>
 		<p>Liquid-in-liquid, however, is not automatically an emulsion. If you mix alcohol and water, they dissolve into each other completely, forming a true solution. It only becomes a disperse system when the liquids are immiscible—like oil and water—forcing the creation of distinct droplets with clear physical boundaries.</p>
 		<p>Similarly, the same rule applies to solids. In metallurgy, when gold and copper are melted and cooled, they form a homogeneous solid solution (a true alloy). A solid suspension only happens when the solids refuse to blend molecularly, such as trapping insoluble drug particles inside a polymer matrix, locking them as separate physical entities.</p>
 	</div>
 	<div class="section">
-		<p>Additionally, but isn't there is 4 physical state? You might also wonder why the 4th state of matter —<b> Plasma </b>— is completely excluded from the physical state matrix of disperse systems.</p>
+		<p>Additionally, isn't there is a forth physical state? You might also wonder why the 4th state of matter —<b> Plasma </b>— is completely excluded from the physical state matrix of disperse systems.</p>
 		<p>The answer is actually fairly simple. It lies in the harsh reality of thermodynamics. Plasma requires extreme energy and temperatures to exist, conditions under which any pharmaceutical active ingredient or biological cell would instantly disintegrate. Furthermore, disperse systems require phases to co-exist without destroying each other, whereas plasma would aggressively ionize any substance entering its field.</p>
 	</div>
 	<div class="section">
